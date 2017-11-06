@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
       id: 1
-      author: marceloverdijk
+      author: aleksandrb
       changes:
         - createTable:
-            tableName: person
+            tableName: server
             columns:
               - column:
                   name: id
@@ -14,25 +14,35 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: first_name
+                  name: name
                   type: varchar(255)
                   constraints:
                     nullable: false
               - column:
-                  name: last_name
+                  name: ip
                   type: varchar(255)
                   constraints:
                     nullable: false
-  - changeSet:
-      id: 2
-      author: marceloverdijk
-      changes:
-        - insert:
-            tableName: person
+        - createTable:
+            tableName: hosts
             columns:
               - column:
-                  name: first_name
-                  value: Marcel
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
               - column:
-                  name: last_name
-                  value: Overdijk
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: ip
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: serverId
+                  type: int
