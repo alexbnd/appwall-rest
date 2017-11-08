@@ -3,7 +3,7 @@ package com.radware.appwall.appwallrest;
 import com.radware.appwall.dao.hosts.Hosts;
 import com.radware.appwall.old.AppWall;
 import com.radware.appwall.old.ClientContent;
-import com.radware.appwall.old.HostsFileManager;
+import com.radware.appwall.old.fileManagers.HostsFileManager;
 import com.radware.appwall.old.UserPass;
 import org.junit.Assert;
 import org.junit.Test;
