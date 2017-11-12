@@ -9,12 +9,12 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HostMap {
 	
-	@XmlElement
-	public List<Binding> Binding= new ArrayList<Binding>();
+	@XmlElement(name = "Binding")
+	public List<Binding> bindings= new ArrayList<Binding>();
 
 	public Binding getBindingByHostName(String hostName){
-		for(Binding bindingIterator : Binding){
-			if(bindingIterator.Name.equals(hostName)){
+		for(Binding bindingIterator : bindings){
+			if(bindingIterator.getName().equals(hostName)){
 				return bindingIterator;
 			}
 		}
@@ -25,8 +25,8 @@ public class HostMap {
 		if(link.trim().isEmpty()){
 			return null;
 		}
-		for(Binding bindingIterator : Binding){
-			if(bindingIterator.Link.equals(link)){
+		for(Binding bindingIterator : bindings){
+			if(bindingIterator.getLink().equals(link)){
 				return bindingIterator;
 			}
 		}

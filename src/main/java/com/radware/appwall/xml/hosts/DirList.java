@@ -1,18 +1,17 @@
-package com.radware.appwall.dao.hosts;
+package com.radware.appwall.xml.hosts;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import java.util.ArrayList;
+import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ReWrite {
+public class DirList {
 
 	@XmlElement
-    public String From="";
+    public String Action= "";
 	@XmlElement
-    public String To="";
-	@XmlElement
-    public String Block="";
+	public List<String> ExcludedURI= new ArrayList<String>();
 	
-		
 }

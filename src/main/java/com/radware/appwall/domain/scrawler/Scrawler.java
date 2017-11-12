@@ -11,10 +11,10 @@ import java.util.List;
 @XmlRootElement(name="Scrawler")
 public class Scrawler {
 
-	@XmlElement
-	public HostMap HostMap= new HostMap();
-	@XmlElement
-	public List<Job> Job= new ArrayList<Job>();
+	@XmlElement(name = "HostMap")
+	public HostMap hostMap= new HostMap();
+	@XmlElement(name = "Job")
+	public List<Job> job= new ArrayList<Job>();
 
 	
 }

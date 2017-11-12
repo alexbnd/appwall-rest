@@ -9,7 +9,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Limits {
 
-	@XmlElement
-	public List<String> URI= new ArrayList<String>();
+	@XmlElement(name = "URI")
+	public List<String> uri= new ArrayList<String>();
 
 }

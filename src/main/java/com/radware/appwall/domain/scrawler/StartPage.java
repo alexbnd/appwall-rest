@@ -7,16 +7,17 @@ import javax.xml.bind.annotation.XmlElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class StartPage {
 
-	@XmlElement
-	public String URL="";
-	@XmlElement
-	public String Method="";
+    @XmlElement(name = "URL")
+    public String url = "";
+    @XmlElement(name = "Method")
+    public String method = "";
 
-	public StartPage(){}
-	
-	public StartPage(String URL, String Method){
-		this.URL= URL;
-		this.Method= Method;
-	}
-		
+    public StartPage() {
+    }
+
+    public StartPage(String URL, String method) {
+        this.url = URL;
+        this.method = method;
+    }
+
 }

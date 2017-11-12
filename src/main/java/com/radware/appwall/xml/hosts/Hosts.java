@@ -1,5 +1,5 @@
 
-package com.radware.appwall.dao.hosts;
+package com.radware.appwall.xml.hosts;
 
 import com.radware.appwall.old.HostUtil;
 

@@ -1,4 +1,4 @@
-package com.radware.appwall.dao.hosts;
+package com.radware.appwall.xml.hosts;
 
 import javax.xml.bind.annotation.XmlElement;
 

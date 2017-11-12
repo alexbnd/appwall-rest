@@ -1,0 +1,36 @@
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+    <changeSet author="aleksandrb" id="createwebservers">
+        <createTable tableName="HOST_BIND">
+            <column autoIncrement="true" name="ID" type="INT">
+                <constraints primaryKey="true" primaryKeyName="SYS_PK_10101"/>
+            </column>
+            <column name="WEB_SERVER_NAME" type="VARCHAR(100)" >
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="USER_IP" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+        <createTable tableName="WEB_SERVERS">
+            <column autoIncrement="true" name="ID" type="INT">
+                <constraints primaryKey="true" primaryKeyName="SYS_PK_10100"/>
+            </column>
+            <column name="HOST_NAME" type="VARCHAR(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="HOST_BINDINGS_ID" type="INT">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="HOST_BINDINGS_ID"
+                                 baseTableName="WEB_SERVERS" constraintName="SYS_FK_10101"
+                                 deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="ID"
+                                 referencedTableName="HOST_BIND"/>
+
+    </changeSet>
+</databaseChangeLog>

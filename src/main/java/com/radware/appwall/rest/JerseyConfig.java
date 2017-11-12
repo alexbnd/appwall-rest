@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class JerseyConfig extends ResourceConfig {
 
     public JerseyConfig() {
-        register(EndPoint.class);
+        register(HostBindingsPoint.class);
         register(ReverseEndpoint.class);
     }
 
