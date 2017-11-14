@@ -82,6 +82,9 @@ public class HostBindingDbTests {
     public void webServerCreateDelete() throws Exception {
         WebServerBinding webServer = new WebServerBinding();
         webServer.setHostName("aleks.com");
+        webServer.setPort(80);
+        webServer.setIp("192.168.2.34");
+        webServer.setDescription("Description");
         webServer = webServersRepository.save(webServer);
         Assert.assertNotNull(webServer);
         String newName = "aleks1.com";
@@ -96,11 +99,13 @@ public class HostBindingDbTests {
     @Test
     public void webServerCreateDuplicateName() throws Exception {
         WebServerBinding webServer = new WebServerBinding();
-        webServer.setHostName("aleks.com");
+        webServer.setHostName("aleks2.com");
+        webServer.setIp("1.1.1.1");
+        webServer.setPort(80);
         webServer = webServersRepository.save(webServer);
         Assert.assertNotNull(webServer);
         WebServerBinding webServer2 = new WebServerBinding();
-        webServer2.setHostName("aleks.com");
+        webServer2.setHostName("aleks2.com");
 
         exception.expect(DataIntegrityViolationException.class);
         webServersRepository.save(webServer2);
@@ -119,13 +124,15 @@ public class HostBindingDbTests {
         //HostBindings hostBindings = hostBindingsRepository.findOne(saved.getId());
         Assert.assertNotNull(hostBindings);
 
-        WebServerBinding webServers = new WebServerBinding();
-        String hostName = "hackme1.com";
-        webServers.setHostName(hostName);
-        webServers = webServersRepository.save(webServers);
-        WebServerBinding binding = webServersRepository.findById(webServers.getId());
+        WebServerBinding webServer = new WebServerBinding();
+        String hostName = "hackme11.com";
+        webServer.setIp("1.1.1.2");
+        webServer.setPort(81);
+        webServer.setHostName(hostName);
+        webServer = webServersRepository.save(webServer);
+        WebServerBinding binding = webServersRepository.findById(webServer.getId());
 
-        webServers.setHostBindings(hostBindings);
+        webServer.setHostBindings(hostBindings);
         if (hostBindings.getWebServers() == null) {
             hostBindings.setWebServers(new HashSet<>());
         }

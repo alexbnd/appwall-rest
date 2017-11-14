@@ -20,6 +20,27 @@ public class WebServerBinding {
     @JoinColumn(name = "HOST_BINDINGS_ID", referencedColumnName = "ID", nullable = false)
     private HostBindings hostBindings;
 
+    @Column(name = "DESCRIPTION", unique = true)
+    public String description;
+    @Column(name = "IP", unique = true)
+    public String ip;
+    @Column(name = "PORT", unique = true)
+    public Integer port;
+    @Column(name = "PROTOCOL", unique = true)
+    public ProtocolEnum protocol;
+
+    @Column(name = "SSL_V2", unique = true)
+    public Boolean supportSSLv2;
+
+    @Column(name = "SSL_V3", unique = true)
+    public Boolean supportSSLv3;
+    @Column(name = "TLS_1_0", unique = true)
+    public Boolean supportTLSv10;
+    @Column(name = "TLS_1_1", unique = true)
+    public Boolean supportTLSv11;
+    @Column(name = "TLS_1_2", unique = true)
+    public Boolean supportTLSv12;
+
     public HostBindings getHostBindings() {
         return hostBindings;
     }
@@ -67,5 +88,85 @@ public class WebServerBinding {
 
     public String getWebServerName() {
         return hostBindings.getWebServerName();
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public Integer getPort() {
+        return port;
+    }
+
+    public void setPort(Integer port) {
+        this.port = port;
+    }
+
+    public ProtocolEnum getProtocol() {
+        return protocol;
+    }
+
+    public void setProtocol(ProtocolEnum protocol) {
+        this.protocol = protocol;
+    }
+
+    public Boolean getSupportSSLv2() {
+        return supportSSLv2;
+    }
+
+    public void setSupportSSLv2(Boolean supportSSLv2) {
+        this.supportSSLv2 = supportSSLv2;
+    }
+
+    public Boolean getSupportSSLv3() {
+        return supportSSLv3;
+    }
+
+    public void setSupportSSLv3(Boolean supportSSLv3) {
+        this.supportSSLv3 = supportSSLv3;
+    }
+
+    public Boolean getSupportTLSv10() {
+        return supportTLSv10;
+    }
+
+    public void setSupportTLSv10(Boolean supportTLSv10) {
+        this.supportTLSv10 = supportTLSv10;
+    }
+
+    public Boolean getSupportTLSv11() {
+        return supportTLSv11;
+    }
+
+    public void setSupportTLSv11(Boolean supportTLSv11) {
+        this.supportTLSv11 = supportTLSv11;
+    }
+
+    public Boolean getSupportTLSv12() {
+        return supportTLSv12;
+    }
+
+    public void setSupportTLSv12(Boolean supportTLSv12) {
+        this.supportTLSv12 = supportTLSv12;
+    }
+
+    public enum ProtocolEnum {
+
+        HTTP,
+        HTTPS,
+        TCP;
+
     }
 }

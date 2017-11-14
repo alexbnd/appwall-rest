@@ -5,5 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface HostBindingsWebServersRepository extends CrudRepository<WebServerBinding, Long> {
 
-    public WebServerBinding findById(Long id);
+    WebServerBinding findById(Long id);
+
+    WebServerBinding findByHostName(String hostName);
 }

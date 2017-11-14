@@ -24,6 +24,33 @@
             <column name="HOST_BINDINGS_ID" type="INT">
                 <constraints nullable="true"/>
             </column>
+            <column name="DESCRIPTION" type="VARCHAR(100)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="IP" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PORT" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PROTOCOL" type="VARCHAR(100)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="SSL_V2" type="BOOLEAN">
+                <constraints nullable="true"/>
+            </column>
+            <column name="SSL_V3" type="BOOLEAN">
+                <constraints nullable="true"/>
+            </column>
+            <column name="TLS_1_0" type="BOOLEAN">
+                <constraints nullable="true"/>
+            </column>
+            <column name="TLS_1_1" type="BOOLEAN">
+                <constraints nullable="true"/>
+            </column>
+            <column name="TLS_1_2" type="BOOLEAN">
+                <constraints nullable="true"/>
+            </column>
         </createTable>
 
         <addForeignKeyConstraint baseColumnNames="HOST_BINDINGS_ID"

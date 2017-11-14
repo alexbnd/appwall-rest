@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ASCII" standalone="yes"?>
+<Scrawler>
+    <HostMap>
+        <Binding>
+            <Name>e1</Name>
+            <Link></Link>
+            <WebServerInterfaceName>entity1</WebServerInterfaceName>
+            <GetUserIPFromHTTPHeader></GetUserIPFromHTTPHeader>
+        </Binding>
+        <Binding>
+            <Name>e2</Name>
+            <Link></Link>
+            <WebServerInterfaceName>entity1</WebServerInterfaceName>
+            <WebServerInterfaceName>entity2</WebServerInterfaceName>
+            <GetUserIPFromHTTPHeader></GetUserIPFromHTTPHeader>
+        </Binding>
+        <Binding>
+            <Name>https1</Name>
+            <Link></Link>
+            <WebServerInterfaceName>httpsEntity</WebServerInterfaceName>
+            <GetUserIPFromHTTPHeader></GetUserIPFromHTTPHeader>
+        </Binding>
+        <Binding>
+            <Name>tcpEntity</Name>
+            <Link></Link>
+            <WebServerInterfaceName>tcpEntity</WebServerInterfaceName>
+            <GetUserIPFromHTTPHeader></GetUserIPFromHTTPHeader>
+        </Binding>
+        <Binding>
+            <Name>e3</Name>
+            <Link></Link>
+            <WebServerInterfaceName>httpsEntity</WebServerInterfaceName>
+            <WebServerInterfaceName>tcpEntity</WebServerInterfaceName>
+            <GetUserIPFromHTTPHeader></GetUserIPFromHTTPHeader>
+        </Binding>
+    </HostMap>
+</Scrawler>
