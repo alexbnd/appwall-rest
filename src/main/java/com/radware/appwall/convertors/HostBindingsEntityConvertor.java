@@ -23,15 +23,15 @@ public class HostBindingsEntityConvertor {
     public List<HostBindings> convertToDto(Scrawler scrawler) {
         List<HostBindings> hostBindings = new ArrayList<>();
 
-        for (Binding binding: scrawler.hostMap.bindings) {
+        for(Binding binding : scrawler.hostMap.bindings) {
             HostBindings hostBinding = new HostBindings();
             hostBinding.setWebServerName(binding.name);
             hostBinding.setGetUserIPFromHTTPHeader(binding.getUserIPFromHTTPHeader);
             List<String> webServerInterfaceName = binding.getWebServerInterfaceName();
             Set<WebServerBinding> webServerBindingSet = new HashSet<>();
-            for (String webServerName: webServerInterfaceName) {
-                WebServerBinding webServerBinding = webServersRepository.findByHostName(webServerName);
-                if (webServerBinding == null) {
+            for(String webServerName : webServerInterfaceName) {
+                WebServerBinding webServerBinding = webServersRepository.findByHostNameIgnoreCase(webServerName);
+                if(webServerBinding == null) {
                     webServerBinding = new WebServerBinding();
                     webServerBinding.setHostName(webServerName);
                 }

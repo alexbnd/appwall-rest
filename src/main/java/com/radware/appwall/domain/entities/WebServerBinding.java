@@ -182,6 +182,14 @@ public class WebServerBinding {
         this.supportTLSv12 = supportTLSv12;
     }
 
+    @Override
+    public String toString() {
+        return "WebServerBinding{" + "id=" + id + ", hostName='" + hostName + '\'' + ", hostBindings=" + hostBindings +
+                ", description='" + description + '\'' + ", ip='" + ip + '\'' + ", port=" + port + ", protocol=" +
+                protocol + ", supportSSLv2=" + supportSSLv2 + ", supportSSLv3=" + supportSSLv3 + ", supportTLSv10=" +
+                supportTLSv10 + ", supportTLSv11=" + supportTLSv11 + ", supportTLSv12=" + supportTLSv12 + '}';
+    }
+
     public enum ProtocolEnum {
 
         HTTP,

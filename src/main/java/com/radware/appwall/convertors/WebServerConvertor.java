@@ -19,7 +19,7 @@ public class WebServerConvertor {
     public List<WebServerBinding> convertToDto(ProtectedEntities protectedEntities) {
         List<WebServerBinding> bindingList = new ArrayList<>();
         for(WebServerInterface serverInterface : protectedEntities.webServerInterfaces.webServerInterface) {
-            WebServerBinding webServerBinding = webServersRepository.findByHostName(serverInterface.name);
+            WebServerBinding webServerBinding = webServersRepository.findByHostNameIgnoreCase(serverInterface.name);
             if(webServerBinding == null) {
                 webServerBinding = new WebServerBinding();
                 webServerBinding.setHostName(serverInterface.name);
