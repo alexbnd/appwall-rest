@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- //Copyright ©Radware Ltd. 2015 All Rights Reserved -->
+
+<Configuration status="info" name="DefaultConfig" monitorInterval="30" packages="">
+    <Properties>
+        <Property name="writablePath">.</Property>
+    </Properties>
+    <Appenders>
+        <RollingFile name="appwall" fileName="${sys:writablePath}/appwall_logs/appwall.log"
+                     filePattern="${sys:writablePath}/appwall_logs/appwall-%i.log"
+                     ignoreExceptions="false" append="true">
+            <PatternLayout>
+                <Pattern>CONTROLLER: %d{dd-MM-yyyy HH:mm:ss} [%t] %-5level %logger{36} - %msg%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <!--<TimeBasedTriggeringPolicy />-->
+                <SizeBasedTriggeringPolicy size="15 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5"/>
+        </RollingFile>
+
+        <Console name="STDOUT" target="SYSTEM_OUT" ignoreExceptions="false">
+            <PatternLayout pattern="%m%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="appwall"/>
+            <!--<AppenderRef ref="STDOUT" />-->
+        </Root>
+    </Loggers>
+</Configuration>

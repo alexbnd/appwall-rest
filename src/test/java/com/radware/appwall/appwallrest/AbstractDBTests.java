@@ -1,5 +1,6 @@
 package com.radware.appwall.appwallrest;
 
+import com.radware.appwall.logging.AppWallLogger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -26,8 +27,7 @@ public class AbstractDBTests {
         try {
             clearDatabase();
         } catch(Exception e) {
-            //TODO
-            //fail(e.getMessage());
+            AppWallLogger.error(this.getClass(), e, null);
         }
     }
 

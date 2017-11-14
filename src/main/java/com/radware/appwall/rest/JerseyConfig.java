@@ -9,7 +9,7 @@ public class JerseyConfig extends ResourceConfig {
 
     public JerseyConfig() {
         register(HostBindingsPoint.class);
-        register(ReverseEndpoint.class);
+        register(ProtectedEntitiesEndpoint.class);
     }
 
 }

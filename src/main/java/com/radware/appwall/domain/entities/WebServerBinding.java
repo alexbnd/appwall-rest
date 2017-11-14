@@ -1,6 +1,9 @@
 package com.radware.appwall.domain.entities;
 
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -11,8 +14,10 @@ public class WebServerBinding {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
+    @Expose(serialize = false)
     private Long id;
 
+    @SerializedName("WebServerName")
     @Column(name = "HOST_NAME", unique = true)
     private String hostName;
 
@@ -20,24 +25,39 @@ public class WebServerBinding {
     @JoinColumn(name = "HOST_BINDINGS_ID", referencedColumnName = "ID", nullable = false)
     private HostBindings hostBindings;
 
-    @Column(name = "DESCRIPTION", unique = true)
+    @SerializedName("Description")
+    @Column(name = "DESCRIPTION")
     public String description;
-    @Column(name = "IP", unique = true)
+
+    @SerializedName("IP")
+    @Column(name = "IP")
     public String ip;
-    @Column(name = "PORT", unique = true)
+
+    @SerializedName("Port")
+    @Column(name = "PORT")
     public Integer port;
-    @Column(name = "PROTOCOL", unique = true)
+
+    @SerializedName("Protocol")
+    @Column(name = "PROTOCOL")
     public ProtocolEnum protocol;
 
-    @Column(name = "SSL_V2", unique = true)
+    @SerializedName("SupportSSLv2")
+    @Column(name = "SSL_V2")
     public Boolean supportSSLv2;
 
-    @Column(name = "SSL_V3", unique = true)
+    @SerializedName("SupportSSLv3")
+    @Column(name = "SSL_V3")
     public Boolean supportSSLv3;
+
+    @SerializedName("SupportTLSv10")
     @Column(name = "TLS_1_0", unique = true)
     public Boolean supportTLSv10;
+
+    @SerializedName("SupportTLSv11")
     @Column(name = "TLS_1_1", unique = true)
     public Boolean supportTLSv11;
+
+    @SerializedName("SupportTLSv12")
     @Column(name = "TLS_1_2", unique = true)
     public Boolean supportTLSv12;
 

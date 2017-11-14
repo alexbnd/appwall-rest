@@ -8,6 +8,7 @@ import javax.ws.rs.core.MediaType;
 import com.google.gson.Gson;
 import com.radware.appwall.domain.entities.HostBindings;
 import com.radware.appwall.domain.scrawler.Scrawler;
+import com.radware.appwall.logging.AppWallLogger;
 import com.radware.appwall.old.AppWall;
 import com.radware.appwall.old.ClientContent;
 import com.radware.appwall.old.UserPass;
@@ -48,7 +49,7 @@ public class HostBindingsPoint {
         try {
             hostsBindingsFileManager.refresh(up, new ClientContent());
         } catch(Exception e) {
-            //TODO
+            AppWallLogger.error(this.getClass(), e, "");
         }
         Scrawler cache = hostsBindingsFileManager.getCache();
         Iterable<HostBindings> all = hostBindingsRepository.findAll();
