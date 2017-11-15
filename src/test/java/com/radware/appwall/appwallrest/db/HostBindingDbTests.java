@@ -94,7 +94,6 @@ public class HostBindingDbTests extends AbstractDBTests {
         hostBindings.setWebServerName(webServerName);
         hostBindings.setGetUserIPFromHTTPHeader("127.0.0.1");
         hostBindings = hostBindingsRepository.save(hostBindings);
-        //HostBindings hostBindings = hostBindingsRepository.findOne(saved.getId());
         Assert.assertNotNull(hostBindings);
 
         WebServerBinding webServer = new WebServerBinding();

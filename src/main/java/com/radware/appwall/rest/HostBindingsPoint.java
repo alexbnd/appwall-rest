@@ -22,8 +22,6 @@ import org.springframework.stereotype.Component;
 @Path("/v3/config/aw/HostBindings/")
 public class HostBindingsPoint {
 
-    private final Service service;
-
     @Autowired
     private HostsBindingsFileManager hostsBindingsFileManager;
 
@@ -34,8 +32,7 @@ public class HostBindingsPoint {
     private Gson gson;
 
 
-    public HostBindingsPoint(Service service) {
-        this.service = service;
+    public HostBindingsPoint() {
     }
 
     @GET

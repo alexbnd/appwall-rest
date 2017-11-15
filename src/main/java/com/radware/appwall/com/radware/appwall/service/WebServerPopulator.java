@@ -5,7 +5,6 @@ import com.radware.appwall.domain.entities.WebServerBinding;
 import com.radware.appwall.logging.AppWallLogger;
 import com.radware.appwall.repository.HostBindingsWebServersRepository;
 import com.radware.appwall.xml.protectedEnities.ProtectedEntities;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -21,7 +20,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 @Service
-public class WebServerPopulator implements InitializingBean {
+public class WebServerPopulator implements DBInitializer {
 
     public static final String PROTECTED_ENTITIES_FILE = "Config/ProtectedEntities.cfg";
 
@@ -50,9 +49,15 @@ public class WebServerPopulator implements InitializingBean {
 
     }
 
-    public void init() {
+    @Override
+    public void initDB() {
         List<WebServerBinding> webServerBindings = populate();
         hostBindingsWebServersRepository.save(webServerBindings);
+    }
+
+    @Override
+    public Integer getOrder() {
+        return 1;
     }
 
     public List<WebServerBinding> populate() {
@@ -62,7 +67,8 @@ public class WebServerPopulator implements InitializingBean {
             InputStreamReader in = new InputStreamReader(resource.getInputStream());
             reader = new BufferedReader(in);
         } catch(IOException e) {
-            AppWallLogger.error(this.getClass(), e, "ERROR_INITIALIZING_RESOURCEx1", basePath + PROTECTED_ENTITIES_FILE);
+            AppWallLogger
+                    .error(this.getClass(), e, "ERROR_INITIALIZING_RESOURCEx1", basePath + PROTECTED_ENTITIES_FILE);
         }
         ProtectedEntities protectedEntities = null;
         try {
@@ -74,8 +80,5 @@ public class WebServerPopulator implements InitializingBean {
         return bindingList;
     }
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        init();
-    }
+
 }
