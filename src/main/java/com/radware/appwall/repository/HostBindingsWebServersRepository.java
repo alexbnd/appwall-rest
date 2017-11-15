@@ -11,5 +11,5 @@ public interface HostBindingsWebServersRepository extends CrudRepository<WebServ
 
     WebServerBinding findByHostNameIgnoreCase(String hostName);
 
-    List<WebServerBinding> findByIpAndPort(String ip, Integer port);
+    WebServerBinding findByIpAndPort(String ip, Integer port);
 }

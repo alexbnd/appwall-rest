@@ -65,7 +65,24 @@ public class HostBindingDbTests extends AbstractDBTests {
 
         exception.expect(DataIntegrityViolationException.class);
         webServersRepository.save(webServer2);
+        Assert.assertTrue("Unreachable check if see it - its an error", false);
+    }
+    @Test
+    public void webServerCreateDuplicateIPort() throws Exception {
+        WebServerBinding webServer = new WebServerBinding();
+        webServer.setHostName("aleks2.com");
+        webServer.setIp("1.1.1.1");
+        webServer.setPort(80);
+        webServer = webServersRepository.save(webServer);
+        Assert.assertNotNull(webServer);
+        WebServerBinding webServer2 = new WebServerBinding();
+        webServer2.setHostName("aleks3.com");
+        webServer.setIp("1.1.1.1");
+        webServer.setPort(80);
 
+        exception.expect(DataIntegrityViolationException.class);
+        webServersRepository.save(webServer2);
+        Assert.assertTrue("Unreachable check if see it - its an error", false);
     }
 
 
