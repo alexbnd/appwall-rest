@@ -29,4 +29,9 @@ public class WebFarms {
         }
         return null;
     }
+
+    @Override
+    public String toString() {
+        return "WebFarms{" + "webFarm=" + webFarm + '}';
+    }
 }

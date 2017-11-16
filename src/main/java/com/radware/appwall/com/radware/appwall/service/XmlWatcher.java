@@ -1,5 +1,6 @@
 package com.radware.appwall.com.radware.appwall.service;
 
+import com.radware.appwall.logging.AppWallLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,14 +20,23 @@ public class XmlWatcher {
                 return o1.getOrder().compareTo(o2.getOrder());
             }
         });
-        System.out.println(dbInitializers.size());
+        initDB();
+    }
+
+    //this method starts on application start and fill the DB according values from appwall config files
+    public void initDB() {
         for (DBInitializer initializer: dbInitializers) {
             initializer.initDB();
         }
     }
 
-    //this method starts on application start and fill the DB according values from appwall config files
-    public void initDB() {
 
+    //thi method runs on apply command applied
+    //it call all initializer method dump
+    public void dumpDB() {
+        for (DBInitializer initializer: dbInitializers) {
+            AppWallLogger.trace(this.getClass(), "DUMPING_TABLE_TO_XMLx2", initializer.getTableName(), initializer.getXmlFileName());
+            initializer.dumpDB();
+        }
     }
 }

@@ -1,23 +1,26 @@
 package com.radware.appwall.appwallrest.db;
 
-import com.radware.appwall.appwallrest.AbstractDBTests;
 import com.radware.appwall.domain.entities.HostBindings;
 import com.radware.appwall.domain.entities.WebServerBinding;
 import com.radware.appwall.repository.HostBindingsRepository;
 import com.radware.appwall.repository.HostBindingsWebServersRepository;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.HashSet;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class HostBindingDbTests extends AbstractDBTests {
+
+public class HostBindingDbTests { //extends AbstractDBTests {
 
 
     @Autowired
@@ -34,7 +37,8 @@ public class HostBindingDbTests extends AbstractDBTests {
     public void contextLoads() {
     }
 
-     @Test
+    @Test
+    @DirtiesContext
     public void webServerCreateDelete() throws Exception {
         WebServerBinding webServer = new WebServerBinding();
         webServer.setHostName("aleks.com");
@@ -53,20 +57,22 @@ public class HostBindingDbTests extends AbstractDBTests {
     }
 
     @Test
+    @DirtiesContext
     public void webServerCreateDuplicateName() throws Exception {
         WebServerBinding webServer = new WebServerBinding();
-        webServer.setHostName("aleks2.com");
+        webServer.setHostName("aleks23.com");
         webServer.setIp("1.1.1.1");
         webServer.setPort(80);
         webServer = webServersRepository.save(webServer);
         Assert.assertNotNull(webServer);
         WebServerBinding webServer2 = new WebServerBinding();
-        webServer2.setHostName("aleks2.com");
+        webServer2.setHostName("aleks23.com");
 
         exception.expect(DataIntegrityViolationException.class);
         webServersRepository.save(webServer2);
         Assert.assertTrue("Unreachable check if see it - its an error", false);
     }
+
     @Test
     public void webServerCreateDuplicateIPort() throws Exception {
         WebServerBinding webServer = new WebServerBinding();
@@ -105,7 +111,7 @@ public class HostBindingDbTests extends AbstractDBTests {
         WebServerBinding binding = webServersRepository.findById(webServer.getId());
 
         webServer.setHostBindings(hostBindings);
-        if (hostBindings.getWebServers() == null) {
+        if(hostBindings.getWebServers() == null) {
             hostBindings.setWebServers(new HashSet<>());
         }
 

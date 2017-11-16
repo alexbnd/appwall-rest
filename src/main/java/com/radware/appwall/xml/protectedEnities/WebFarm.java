@@ -18,7 +18,7 @@ public class WebFarm {
 
     @Override
     public String toString() {
-        return name;
+        return "WebFarm{" + "id='" + id + '\'' + ", name='" + name + '\'' + ", description='" + description + '\'' +
+                ", serversList=" + serversList + '}';
     }
-
 }

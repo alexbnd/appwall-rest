@@ -11,9 +11,16 @@ public class ProtectedEntities {
 
     @XmlElement(name = "WebServerInterfaces")
     public WebServerInterfaces webServerInterfaces = new WebServerInterfaces();
+
     @XmlElement(name = "WebFarms")
     public WebFarms webFarms = new WebFarms();
 
+    @Override
+    public String toString() {
+        return "ProtectedEntities{" + "webServerInterfaces=" + webServerInterfaces + ", webFarms=" + webFarms + '}';
+    }
+
+    /*
     public String getProtectedEntityName(String ID) {
         WebFarm webFarm = webFarms.getWebFarmID(ID);
         if(webFarm != null) {
@@ -45,5 +52,7 @@ public class ProtectedEntities {
         }
         return "";
     }
+*/
+
 
 }

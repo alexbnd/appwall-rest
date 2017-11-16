@@ -30,4 +30,8 @@ public class WebServerInterfaces {
         return null;
     }
 
+    @Override
+    public String toString() {
+        return "WebServerInterfaces{" + "webServerInterface=" + webServerInterface + '}';
+    }
 }

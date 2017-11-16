@@ -4,4 +4,10 @@ public interface DBInitializer {
 
     void initDB();
     Integer getOrder();
+
+    void dumpDB();
+
+    String getTableName();
+
+    String getXmlFileName();
 }

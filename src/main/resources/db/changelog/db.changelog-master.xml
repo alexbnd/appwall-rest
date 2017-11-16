@@ -6,7 +6,7 @@
             <column autoIncrement="true" name="ID" type="INT">
                 <constraints primaryKey="true" primaryKeyName="SYS_PK_10101"/>
             </column>
-            <column name="WEB_SERVER_NAME" type="VARCHAR(100)" >
+            <column name="WEB_SERVER_NAME" type="VARCHAR(100)">
                 <constraints nullable="false" unique="true"/>
             </column>
             <column name="USER_IP" type="VARCHAR(100)">
@@ -15,7 +15,7 @@
 
         </createTable>
         <createTable tableName="WEB_SERVERS">
-            <column autoIncrement="true" name="ID" type="INT">
+            <column autoIncrement="true" name="ID" type="INT" startWith="255">
                 <constraints primaryKey="true" primaryKeyName="SYS_PK_10100"/>
             </column>
             <column name="HOST_NAME" type="VARCHAR(100)">
@@ -63,7 +63,6 @@
                              deferrable="true"
                              initiallyDeferred="true"
                              schemaName="public"
-                             tableName="WEB_SERVERS"
-                             />
+                             tableName="WEB_SERVERS" />
     </changeSet>
 </databaseChangeLog>
