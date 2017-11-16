@@ -12,11 +12,11 @@ import javax.validation.ConstraintValidatorContext;
 @Service
 public class WebServerValidator implements ConstraintValidator<ValidWebServerBinding, WebServerBinding> {
 
-    String IP_AND_PORT_COMBINATION_ALREADY_EXIST = "Ip and port combination already exist";
-    String HOST_NAME_ALREADY_EXIST = "Host name already exist";
-    String HOST_NAME_EMPTY = "WebServerName is empty";
-    String IP_IS_EMPTY = "IP is empty";
-    String PORT_IS_EMPTY = "Port is empty";
+    public static final String IP_AND_PORT_COMBINATION_ALREADY_EXIST = "Ip and port combination already exist";
+    public static final String HOST_NAME_ALREADY_EXIST = "Host name already exist";
+    public static final String HOST_NAME_EMPTY = "WebServerName is empty";
+    public static final String IP_IS_EMPTY = "IP is empty";
+    public static final String PORT_IS_EMPTY = "Port is empty";
 
     @Autowired
     private HostBindingsWebServersRepository webServersRepository;
@@ -28,21 +28,27 @@ public class WebServerValidator implements ConstraintValidator<ValidWebServerBin
     @Override
     public boolean isValid(final WebServerBinding webServerBinding,
             final ConstraintValidatorContext constraintValidatorContext) {
-        if(webServerBinding.getHostName() == null || webServerBinding.getHostName().trim().isEmpty()) {
-            constraintValidatorContext.buildConstraintViolationWithTemplate(HOST_NAME_EMPTY).addConstraintViolation();
+        String error = validate(webServerBinding);
+        if(error != null) {
+            constraintValidatorContext.buildConstraintViolationWithTemplate(error).addConstraintViolation();
             return false;
+        }
+        return true;
+    }
+
+    public String validate(WebServerBinding webServerBinding) {
+        if(webServerBinding.getHostName() == null || webServerBinding.getHostName().trim().isEmpty()) {
+            return HOST_NAME_EMPTY;
         }
         WebServerBinding savedWebServerBinding = null;
         if(webServerBinding.getId() != null) {
             savedWebServerBinding = webServersRepository.findById(webServerBinding.getId());
         }
         if(webServerBinding.getIp() == null || webServerBinding.getIp().trim().isEmpty()) {
-            constraintValidatorContext.buildConstraintViolationWithTemplate(IP_IS_EMPTY).addConstraintViolation();
-            return false;
+            return IP_IS_EMPTY;
         }
         if(webServerBinding.getPort() == null) {
-            constraintValidatorContext.buildConstraintViolationWithTemplate(PORT_IS_EMPTY).addConstraintViolation();
-            return false;
+            return PORT_IS_EMPTY;
         }
 
         WebServerBinding byHostNameIgnoreCase =
@@ -50,9 +56,7 @@ public class WebServerValidator implements ConstraintValidator<ValidWebServerBin
         boolean isUpdate = byHostNameIgnoreCase != null && savedWebServerBinding != null &&
                 savedWebServerBinding.getId().equals(byHostNameIgnoreCase.getId());
         if(byHostNameIgnoreCase != null && !isUpdate) {
-            constraintValidatorContext.buildConstraintViolationWithTemplate(HOST_NAME_ALREADY_EXIST)
-                                      .addConstraintViolation();
-            return false;
+            return HOST_NAME_ALREADY_EXIST;
         }
         WebServerBinding byIpAndPort =
                 webServersRepository.findByIpAndPort(webServerBinding.getIp(), webServerBinding.getPort());
@@ -60,10 +64,8 @@ public class WebServerValidator implements ConstraintValidator<ValidWebServerBin
                 savedWebServerBinding.getId().equals(byIpAndPort.getId());
 
         if(byIpAndPort != null && !isUpdate) {
-            constraintValidatorContext.buildConstraintViolationWithTemplate(IP_AND_PORT_COMBINATION_ALREADY_EXIST)
-                                      .addConstraintViolation();
-            return false;
+            return IP_AND_PORT_COMBINATION_ALREADY_EXIST;
         }
-        return true;
+        return null;
     }
 }

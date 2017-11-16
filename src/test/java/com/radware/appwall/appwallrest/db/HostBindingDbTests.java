@@ -74,7 +74,7 @@ public class HostBindingDbTests { //extends AbstractDBTests {
     }
 
     @Test
-    public void webServerCreateDuplicateIPort() throws Exception {
+    public void webServerCreateDuplicateIPPort() throws Exception {
         WebServerBinding webServer = new WebServerBinding();
         webServer.setHostName("aleks2.com");
         webServer.setIp("1.1.1.1");
