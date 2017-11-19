@@ -28,12 +28,14 @@ public class ValidWebServerBindingTests {
         webServer.setHostName("aleks2.com");
         webServer.setIp("1.1.1.1");
         webServer.setPort(80);
+        webServer.setProtocol(WebServerBinding.ProtocolEnum.HTTP);
         webServer = webServersRepository.save(webServer);
         Assert.assertNotNull(webServer);
         WebServerBinding webServer2 = new WebServerBinding();
         webServer2.setHostName("aleks3.com");
         webServer2.setIp("1.1.1.1");
         webServer2.setPort(81);
+        webServer2.setProtocol(WebServerBinding.ProtocolEnum.HTTP);
 
         String validationErrors = validator.validate(webServer2);
         Assert.assertNull(validationErrors);
@@ -54,6 +56,7 @@ public class ValidWebServerBindingTests {
         WebServerBinding webServer = new WebServerBinding();
         webServer.setIp("1.1.1.2");
         webServer.setPort(83);
+        webServer.setProtocol(WebServerBinding.ProtocolEnum.HTTP);
         String validate = validator.validate(webServer);
         Assert.assertEquals(validator.HOST_NAME_EMPTY, validate);
         webServer.setHostName("aleks2.com");
@@ -65,8 +68,13 @@ public class ValidWebServerBindingTests {
         validate = validator.validate(webServer);
         Assert.assertEquals(validator.PORT_IS_EMPTY, validate);
         webServer.setPort(99);
+        webServer.setProtocol(null);
         validate = validator.validate(webServer);
-        Assert.assertNull(validator.PORT_IS_EMPTY, validate);
+        Assert.assertEquals(validator.PROTOCOL_IS_ILLEGAL, validate);
+        webServer.setProtocol(WebServerBinding.ProtocolEnum.HTTP);
+        validate = validator.validate(webServer);
+        Assert.assertNull("everything is ok", validate);
+
     }
 
 }

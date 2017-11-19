@@ -44,6 +44,7 @@ public class ProtectedEntitiesEndpoint {
     @Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
     public Response createWebServer(@Valid @ValidWebServerBinding WebServerBinding webServerBinding) {
         WebServerBinding saved;
+        webServerBinding.setId(null);
         try {
             saved = webServersRepository.save(webServerBinding);
         } catch(Exception ex) {

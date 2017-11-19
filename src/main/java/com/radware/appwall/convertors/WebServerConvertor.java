@@ -69,6 +69,21 @@ public class WebServerConvertor {
         serverInterface.setIp(binding.ip);
         serverInterface.setPort(binding.port.toString());
         serverInterface.setProtocol(binding.protocol.name());
+        if (binding.supportSSLv2 == null) {
+            binding.supportSSLv2 = false;
+        }
+        if (binding.supportSSLv3 == null) {
+            binding.supportSSLv3 = false;
+        }
+        if (binding.supportTLSv10 == null) {
+            binding.supportTLSv10 = false;
+        }
+        if (binding.supportTLSv11 == null) {
+            binding.supportTLSv11 = false;
+        }
+        if (binding.supportTLSv12 == null) {
+            binding.supportTLSv12 = false;
+        }
         BitSet base = Bits.convert(1);
         base.set(0, !binding.supportSSLv2);
         base.set(1, !binding.supportSSLv3);

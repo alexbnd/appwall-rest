@@ -17,6 +17,7 @@ public class WebServerValidator implements ConstraintValidator<ValidWebServerBin
     public static final String HOST_NAME_EMPTY = "WebServerName is empty";
     public static final String IP_IS_EMPTY = "IP is empty";
     public static final String PORT_IS_EMPTY = "Port is empty";
+    public static final String PROTOCOL_IS_ILLEGAL = "Illegal protocol. Possible values: HTTP, HTTPS, TCP";
 
     @Autowired
     private HostBindingsWebServersRepository webServersRepository;
@@ -50,7 +51,9 @@ public class WebServerValidator implements ConstraintValidator<ValidWebServerBin
         if(webServerBinding.getPort() == null) {
             return PORT_IS_EMPTY;
         }
-
+        if(webServerBinding.getProtocol() == null) {
+            return PROTOCOL_IS_ILLEGAL;
+        }
         WebServerBinding byHostNameIgnoreCase =
                 webServersRepository.findByHostNameIgnoreCase(webServerBinding.getHostName());
         boolean isUpdate = byHostNameIgnoreCase != null && savedWebServerBinding != null &&
