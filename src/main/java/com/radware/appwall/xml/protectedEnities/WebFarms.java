@@ -13,18 +13,18 @@ public class WebFarms {
     public List<WebFarm> webFarm = new ArrayList<WebFarm>();
 
     public WebFarm getWebFarmID(String id) {
-        for(WebFarm webFarm : webFarm) {
-            if(webFarm.id.equals(id)) {
-                return webFarm;
+        for(WebFarm webFarm1 : webFarm) {
+            if(webFarm1.id.equals(id)) {
+                return webFarm1;
             }
         }
         return null;
     }
 
     public WebFarm getWebFarmName(String name) {
-        for(WebFarm webFarm : webFarm) {
-            if(webFarm.name.equals(name)) {
-                return webFarm;
+        for(WebFarm webFarm1 : webFarm) {
+            if(webFarm1.name.equals(name)) {
+                return webFarm1;
             }
         }
         return null;

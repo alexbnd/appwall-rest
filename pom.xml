@@ -21,9 +21,9 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>1.8</java.version>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+		<java.version>1.7</java.version>
+		<maven.compiler.source>1.7</maven.compiler.source>
+		<maven.compiler.target>1.7</maven.compiler.target>
 		<hibernate.version>5.1.0.Final</hibernate.version>
 		<apache.version>2.5</apache.version>
 		<gson.version>2.8.0</gson.version>
@@ -116,14 +116,14 @@
                     </requiresUnpack>
                 </configuration>
 			</plugin>
-			<plugin>
+			<!--plugin>
 				<groupId>org.liquibase</groupId>
 				<artifactId>liquibase-maven-plugin</artifactId>
 				<version>3.5.3</version>
 				<configuration>
 					<propertyFile>src/main/resources/liquibase.properties</propertyFile>
 				</configuration>
-			</plugin>
+			</plugin -->
 		</plugins>
 	</build>
 

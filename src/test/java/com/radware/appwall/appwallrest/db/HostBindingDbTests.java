@@ -112,7 +112,7 @@ public class HostBindingDbTests { //extends AbstractDBTests {
 
         webServer.setHostBindings(hostBindings);
         if(hostBindings.getWebServers() == null) {
-            hostBindings.setWebServers(new HashSet<>());
+            hostBindings.setWebServers(new HashSet<WebServerBinding>());
         }
 
         hostBindings.getWebServers().add(binding);

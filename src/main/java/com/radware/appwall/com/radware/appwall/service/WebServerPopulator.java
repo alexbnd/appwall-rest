@@ -18,13 +18,10 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.file.*;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -79,6 +76,9 @@ public class WebServerPopulator implements DBInitializer {
 
     public List<WebServerBinding> populate() {
         Resource resource = resourceLoader.getResource(basePath + PROTECTED_ENTITIES_FILE);
+        if (!resource.exists()) {
+            return Collections.emptyList();
+        }
         BufferedReader reader = null;
         try {
             InputStreamReader in = new InputStreamReader(resource.getInputStream());
@@ -114,9 +114,14 @@ public class WebServerPopulator implements DBInitializer {
             fullPath = fullPath.substring(5);
         }
         Path path = Paths.get(fullPath);
-
+        if (!Files.exists(path)) {
+            File file = new File(path.toString());
+            file.getParentFile().mkdirs();
+            file.createNewFile();
+        }
         //Use try-with-resource to get auto-closeable writer instance
-        try(BufferedWriter writer = Files.newBufferedWriter(path)) {
+        try(BufferedWriter writer = Files.newBufferedWriter(path, Charset.defaultCharset(),
+                StandardOpenOption.TRUNCATE_EXISTING)) {
             writer.write(xml);
         } catch(IOException e) {
             AppWallLogger.error(this.getClass(), e, "ERROR_WRITING_ENTITY_TO_XMLx1", protectedEntities);
