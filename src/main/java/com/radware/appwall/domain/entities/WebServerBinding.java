@@ -1,7 +1,6 @@
 package com.radware.appwall.domain.entities;
 
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import javax.persistence.*;
@@ -14,7 +13,7 @@ public class WebServerBinding {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
-    @Expose(serialize = false)
+    @SerializedName("ID")
     private Long id;
 
     @SerializedName("WebServerName")

@@ -9,6 +9,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 @Component
 @Path("/v3/config/aw")
@@ -20,11 +21,14 @@ public class ApplyEndpoint {
     XmlWatcher xmlWatcher;
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
     public String apply(@QueryParam("action") String action) {
-        xmlWatcher.dumpDB();
-        System.out.println(action);
-        return action;
+        boolean dumpResult = xmlWatcher.dumpDB();
+        if (dumpResult) {
+            return Response.status(Response.Status.OK).build().toString();
+        } else {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build().toString();
+        }
     }
 
 }

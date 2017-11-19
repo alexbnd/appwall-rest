@@ -41,7 +41,6 @@ public class ProtectedEntitiesEndpoint {
     }
 
     @POST
-    @Path("/post")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
     public Response createWebServer(@Valid @ValidWebServerBinding WebServerBinding webServerBinding) {
         WebServerBinding saved;
@@ -57,7 +56,6 @@ public class ProtectedEntitiesEndpoint {
     }
 
     @PUT
-    @Path("/put")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
     public Response updateWebServer(@Valid @ValidWebServerBinding WebServerBinding webServerBinding) {
         if(webServerBinding.getId() == null || webServersRepository.findById(webServerBinding.getId()) == null) {
@@ -76,7 +74,7 @@ public class ProtectedEntitiesEndpoint {
     }
 
     @DELETE
-    @Path("/delete/{id}")
+    @Path("/{id}")
     public Response deleteWebServer(@PathParam("id") String id) {
         if(id == null) {
             return Response.status(Response.Status.BAD_REQUEST).entity(id).build();
@@ -93,6 +91,7 @@ public class ProtectedEntitiesEndpoint {
 
     }
 
+    /*
     @GET
     @Path("/{default: .*}")
     public Response defaultMethod(@Context HttpServletRequest request, @Context HttpServletResponse response) {
@@ -104,6 +103,7 @@ public class ProtectedEntitiesEndpoint {
     public Response defaultPostMethod(@Context HttpServletRequest request, @Context HttpServletResponse response) {
         return Response.noContent().build();
     }
+    */
 
 
     public class CollectionWrapper {

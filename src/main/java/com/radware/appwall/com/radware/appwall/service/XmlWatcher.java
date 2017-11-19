@@ -33,10 +33,16 @@ public class XmlWatcher {
 
     //thi method runs on apply command applied
     //it call all initializer method dump
-    public void dumpDB() {
-        for (DBInitializer initializer: dbInitializers) {
-            AppWallLogger.trace(this.getClass(), "DUMPING_TABLE_TO_XMLx2", initializer.getTableName(), initializer.getXmlFileName());
-            initializer.dumpDB();
+    public boolean dumpDB() {
+        try {
+            for(DBInitializer initializer : dbInitializers) {
+                AppWallLogger.trace(this.getClass(), "DUMPING_TABLE_TO_XMLx2", initializer.getTableName(), initializer.getXmlFileName());
+                initializer.dumpDB();
+            }
+            return true;
+        } catch (Exception ex) {
+            AppWallLogger.error(this.getClass(), "ERROR_DUMPING_TABLE_TO_XML", ex);
+            return false;
         }
     }
 }

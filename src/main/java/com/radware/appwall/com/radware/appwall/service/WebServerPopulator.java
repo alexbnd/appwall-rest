@@ -98,13 +98,8 @@ public class WebServerPopulator implements DBInitializer {
     }
 
     @Override
-    public void dumpDB() {
+    public void dumpDB() throws IOException {
         Iterable<WebServerBinding> serverBindings = hostBindingsWebServersRepository.findAll();
-        /*
-        ProtectedEntities protectedEntities = protectedEntitiesFileManager.getCache();
-        List<WebServerInterface> WebServerInterface = protectedEntities.webServerInterfaces.webServerInterface;
-        WebServerInterfaces WebServerInterfaces = protectedEntities.webServerInterfaces;
-        */
         ProtectedEntities protectedEntities = new ProtectedEntities();
         protectedEntities.webServerInterfaces = new WebServerInterfaces();
         protectedEntities.webServerInterfaces.webServerInterface = webServerConvertor.convertToEntities(serverBindings);
@@ -114,7 +109,7 @@ public class WebServerPopulator implements DBInitializer {
         } catch(Exception e) {
             AppWallLogger.error(this.getClass(), e, "ERROR_CONVERT_ENTITY_TO_XMLx1", protectedEntities);
         }
-        String fullPath = basePath + PROTECTED_ENTITIES_FILE + 1;
+        String fullPath = basePath + PROTECTED_ENTITIES_FILE;
         if(fullPath.startsWith("file:")) {
             fullPath = fullPath.substring(5);
         }
@@ -125,6 +120,7 @@ public class WebServerPopulator implements DBInitializer {
             writer.write(xml);
         } catch(IOException e) {
             AppWallLogger.error(this.getClass(), e, "ERROR_WRITING_ENTITY_TO_XMLx1", protectedEntities);
+            throw e;
         }
 
 
