@@ -7,7 +7,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class JsonFormatter {
 
-    public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    public static final Gson GSON = new GsonBuilder().setPrettyPrinting().
+            excludeFieldsWithoutExposeAnnotation().create();
 
     public JsonFormatter () {
     }

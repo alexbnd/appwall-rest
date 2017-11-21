@@ -1,5 +1,6 @@
 package com.radware.appwall.rest;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.radware.appwall.domain.entities.WebServerBinding;
 import com.radware.appwall.json.JsonFormatter;
@@ -9,11 +10,8 @@ import com.radware.appwall.validation.ValidWebServerBinding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -24,6 +22,12 @@ public class ProtectedEntitiesEndpoint {
     public static final String WEB_SERVER_BINDING_SAVED = "WebServerBinding saved : ";
     public static final String WEB_SERVER_BINDING_DELETED = "WebServerBinding deleted : ";
     public static final String ENTITY_NOT_FOUND = "Entity not found ";
+
+    /*
+    public ProtectedEntitiesEndpoint (){
+        gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+    }
+    */
 
     @Autowired
     private JsonFormatter gson;
@@ -83,8 +87,8 @@ public class ProtectedEntitiesEndpoint {
 
         long longId = Long.parseLong(id);
         WebServerBinding byId = webServersRepository.findById(longId);
-        if ( byId == null) {
-            return Response.status(Response.Status.NOT_FOUND).entity(ENTITY_NOT_FOUND +id).build();
+        if(byId == null) {
+            return Response.status(Response.Status.NOT_FOUND).entity(ENTITY_NOT_FOUND + id).build();
         }
         webServersRepository.delete(byId);
         String result = WEB_SERVER_BINDING_DELETED + id;
@@ -108,6 +112,7 @@ public class ProtectedEntitiesEndpoint {
 
 
     public class CollectionWrapper {
+        @Expose
         @SerializedName("WebServers")
         private Iterable collection;
     }

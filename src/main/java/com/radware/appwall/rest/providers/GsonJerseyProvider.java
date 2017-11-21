@@ -1,6 +1,6 @@
 package com.radware.appwall.rest.providers;
 
-import com.radware.appwall.rest.GsonUtil;
+import com.radware.appwall.logging.AppWallLogger;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
@@ -34,7 +34,7 @@ public class GsonJerseyProvider implements MessageBodyWriter<Object>, MessageBod
         try {
             return GsonUtil.getInstance().fromJson(streamReader, genericType);
         } catch(com.google.gson.JsonSyntaxException e) {
-            // Log exception
+            AppWallLogger.error(this.getClass(), e, "ERROR_UNMARSHALLING");
         } finally {
             streamReader.close();
         }

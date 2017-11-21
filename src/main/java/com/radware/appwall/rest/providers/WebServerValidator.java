@@ -13,7 +13,7 @@ import javax.validation.ConstraintValidatorContext;
 public class WebServerValidator implements ConstraintValidator<ValidWebServerBinding, WebServerBinding> {
 
     public static final String IP_AND_PORT_COMBINATION_ALREADY_EXIST = "Ip and port combination already exist";
-    public static final String HOST_NAME_ALREADY_EXIST = "Host name already exist";
+    public static final String HOST_NAME_ALREADY_EXIST = "WebServerName already exist";
     public static final String HOST_NAME_EMPTY = "WebServerName is empty";
     public static final String IP_IS_EMPTY = "IP is empty";
     public static final String PORT_IS_EMPTY = "Port is empty";
@@ -38,7 +38,7 @@ public class WebServerValidator implements ConstraintValidator<ValidWebServerBin
     }
 
     public String validate(WebServerBinding webServerBinding) {
-        if(webServerBinding.getHostName() == null || webServerBinding.getHostName().trim().isEmpty()) {
+        if(webServerBinding.getWebServerName() == null || webServerBinding.getWebServerName().trim().isEmpty()) {
             return HOST_NAME_EMPTY;
         }
         WebServerBinding savedWebServerBinding = null;
@@ -55,7 +55,7 @@ public class WebServerValidator implements ConstraintValidator<ValidWebServerBin
             return PROTOCOL_IS_ILLEGAL;
         }
         WebServerBinding byHostNameIgnoreCase =
-                webServersRepository.findByHostNameIgnoreCase(webServerBinding.getHostName());
+                webServersRepository.findByWebServerNameIgnoreCase(webServerBinding.getWebServerName());
         boolean isUpdate = byHostNameIgnoreCase != null && savedWebServerBinding != null &&
                 savedWebServerBinding.getId().equals(byHostNameIgnoreCase.getId());
         if(byHostNameIgnoreCase != null && !isUpdate) {

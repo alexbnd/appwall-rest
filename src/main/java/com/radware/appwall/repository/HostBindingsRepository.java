@@ -5,4 +5,8 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface HostBindingsRepository extends CrudRepository<HostBindings, Long> {
 
+
+    HostBindings findById(Long id);
+
+    HostBindings findByHostNameIgnoreCase(String hostName);
 }

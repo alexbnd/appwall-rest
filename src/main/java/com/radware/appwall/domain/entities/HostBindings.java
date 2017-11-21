@@ -1,7 +1,10 @@
 package com.radware.appwall.domain.entities;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import javax.persistence.*;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -9,28 +12,33 @@ import java.util.Set;
 public class HostBindings {
 
     @Id
+    @Expose
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
+    @SerializedName("ID")
     private Long id;
-/*
-    @Column(name = "HOST_NAME")
-    private String hostName;*/
 
+    @Expose
+    @SerializedName("GetUserIPFromHTTPHeader")
     @Column(name = "USER_IP")
     private String getUserIPFromHTTPHeader;
 
-    @Column(name = "WEB_SERVER_NAME")
-    private String webServerName;
+    @Expose
+    @SerializedName("HostName")
+    @Column(name = "HOST_NAME")
+    private String hostName;
 
-    @OneToMany(mappedBy = "hostBindings", fetch = FetchType.EAGER, orphanRemoval = true)
-    private Set<WebServerBinding> webServers = new HashSet<>();
+    @Expose
+    @SerializedName("HostBindingsWebServers")
+    @JoinTable(
+            name="HOST_TO_WEB_SERVER_MAPPING",
+            joinColumns=@JoinColumn(name="HOST_ID", referencedColumnName="ID"),
+            inverseJoinColumns=@JoinColumn(name="WEB_SERVER_ID", referencedColumnName="ID"))
+    @ElementCollection(targetClass=WebServerBinding.class, fetch = FetchType.EAGER)
+    private List<WebServerBinding> webServers;
 
     public HostBindings() {
     }
-/*
-    public HostBindings(String hostName) {
-        this.hostName = hostName;
-    }*/
 
     @Override
     public boolean equals(Object obj) {
@@ -48,7 +56,7 @@ public class HostBindings {
 
     @Override
     public String toString() {
-        return webServerName;
+        return hostName;
     }
 
     public Long getId() {
@@ -59,13 +67,6 @@ public class HostBindings {
         this.id = id;
     }
 
-/*    public String getHostName() {
-        return hostName;
-    }
-
-    public void setHostName(String hostName) {
-        this.hostName = hostName;
-    }*/
 
     public String getGetUserIPFromHTTPHeader() {
         return getUserIPFromHTTPHeader;
@@ -75,20 +76,20 @@ public class HostBindings {
         this.getUserIPFromHTTPHeader = getUserIPFromHTTPHeader;
     }
 
-    public String getWebServerName() {
-        return webServerName;
+    public String getHostName() {
+        return hostName;
     }
 
-    public void setWebServerName(String webServerName) {
-        this.webServerName = webServerName;
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
     }
 
 
-    public Set<WebServerBinding> getWebServers() {
+    public List<WebServerBinding> getWebServers() {
         return webServers;
     }
 
-    public void setWebServers(Set<WebServerBinding> webServers) {
+    public void setWebServers(List<WebServerBinding> webServers) {
         this.webServers = webServers;
     }
 

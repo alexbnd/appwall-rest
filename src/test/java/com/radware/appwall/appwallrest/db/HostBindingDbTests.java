@@ -15,6 +15,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 @RunWith(SpringRunner.class)
@@ -41,16 +42,16 @@ public class HostBindingDbTests { //extends AbstractDBTests {
     @DirtiesContext
     public void webServerCreateDelete() throws Exception {
         WebServerBinding webServer = new WebServerBinding();
-        webServer.setHostName("aleks.com");
+        webServer.setWebServerName("aleks.com");
         webServer.setPort(80);
         webServer.setIp("192.168.2.34");
         webServer.setDescription("Description");
         webServer = webServersRepository.save(webServer);
         Assert.assertNotNull(webServer);
         String newName = "aleks1.com";
-        webServer.setHostName(newName);
+        webServer.setWebServerName(newName);
         webServer = webServersRepository.save(webServer);
-        Assert.assertEquals(newName, webServer.getHostName());
+        Assert.assertEquals(newName, webServer.getWebServerName());
         webServersRepository.delete(webServer);
         webServer = webServersRepository.findOne(webServer.getId());
         Assert.assertNull(webServer);
@@ -60,13 +61,13 @@ public class HostBindingDbTests { //extends AbstractDBTests {
     @DirtiesContext
     public void webServerCreateDuplicateName() throws Exception {
         WebServerBinding webServer = new WebServerBinding();
-        webServer.setHostName("aleks23.com");
+        webServer.setWebServerName("aleks23.com");
         webServer.setIp("1.1.1.1");
         webServer.setPort(80);
         webServer = webServersRepository.save(webServer);
         Assert.assertNotNull(webServer);
         WebServerBinding webServer2 = new WebServerBinding();
-        webServer2.setHostName("aleks23.com");
+        webServer2.setWebServerName("aleks23.com");
 
         exception.expect(DataIntegrityViolationException.class);
         webServersRepository.save(webServer2);
@@ -76,13 +77,13 @@ public class HostBindingDbTests { //extends AbstractDBTests {
     @Test
     public void webServerCreateDuplicateIPPort() throws Exception {
         WebServerBinding webServer = new WebServerBinding();
-        webServer.setHostName("aleks2.com");
+        webServer.setWebServerName("aleks2.com");
         webServer.setIp("1.1.1.1");
         webServer.setPort(80);
         webServer = webServersRepository.save(webServer);
         Assert.assertNotNull(webServer);
         WebServerBinding webServer2 = new WebServerBinding();
-        webServer2.setHostName("aleks3.com");
+        webServer2.setWebServerName("aleks3.com");
         webServer.setIp("1.1.1.1");
         webServer.setPort(80);
 
@@ -97,7 +98,7 @@ public class HostBindingDbTests { //extends AbstractDBTests {
 
         HostBindings hostBindings = new HostBindings();
         String webServerName = "www.google2.com";
-        hostBindings.setWebServerName(webServerName);
+        hostBindings.setHostName(webServerName);
         hostBindings.setGetUserIPFromHTTPHeader("127.0.0.1");
         hostBindings = hostBindingsRepository.save(hostBindings);
         Assert.assertNotNull(hostBindings);
@@ -106,24 +107,17 @@ public class HostBindingDbTests { //extends AbstractDBTests {
         String hostName = "hackme11.com";
         webServer.setIp("1.1.1.2");
         webServer.setPort(81);
-        webServer.setHostName(hostName);
+        webServer.setWebServerName(hostName);
         webServer = webServersRepository.save(webServer);
         WebServerBinding binding = webServersRepository.findById(webServer.getId());
 
-        webServer.setHostBindings(hostBindings);
         if(hostBindings.getWebServers() == null) {
-            hostBindings.setWebServers(new HashSet<WebServerBinding>());
+            hostBindings.setWebServers(new ArrayList<WebServerBinding>());
         }
 
         hostBindings.getWebServers().add(binding);
-        binding.setHostBindings(hostBindings);
-
-        binding = webServersRepository.save(binding);
-        Assert.assertEquals(webServerName, binding.getHostBindings().getWebServerName());
-        hostBindings = hostBindingsRepository.findOne(hostBindings.getId());
+        hostBindings = hostBindingsRepository.save(hostBindings);
         Assert.assertEquals(hostBindings.getWebServers().size(), 1);
-        WebServerBinding serverBinding = hostBindings.getWebServers().iterator().next();
-        Assert.assertEquals(hostBindings.getWebServerName(), serverBinding.getWebServerName());
 
     }
 

@@ -25,14 +25,14 @@ public class ValidWebServerBindingTests {
     @DirtiesContext
     public void webServerCreateDuplicateIPPort() throws Exception {
         WebServerBinding webServer = new WebServerBinding();
-        webServer.setHostName("aleks2.com");
+        webServer.setWebServerName("aleks2.com");
         webServer.setIp("1.1.1.1");
         webServer.setPort(80);
         webServer.setProtocol(WebServerBinding.ProtocolEnum.HTTP);
         webServer = webServersRepository.save(webServer);
         Assert.assertNotNull(webServer);
         WebServerBinding webServer2 = new WebServerBinding();
-        webServer2.setHostName("aleks3.com");
+        webServer2.setWebServerName("aleks3.com");
         webServer2.setIp("1.1.1.1");
         webServer2.setPort(81);
         webServer2.setProtocol(WebServerBinding.ProtocolEnum.HTTP);
@@ -46,7 +46,7 @@ public class ValidWebServerBindingTests {
         webServer.setDescription("dududu");
         validationErrors = validator.validate(webServer);
         Assert.assertNull(validationErrors);
-        webServer2.setHostName("aleks2.com");
+        webServer2.setWebServerName("aleks2.com");
         validationErrors = validator.validate(webServer2);
         Assert.assertEquals(validator.HOST_NAME_ALREADY_EXIST, validationErrors);
     }
@@ -59,7 +59,7 @@ public class ValidWebServerBindingTests {
         webServer.setProtocol(WebServerBinding.ProtocolEnum.HTTP);
         String validate = validator.validate(webServer);
         Assert.assertEquals(validator.HOST_NAME_EMPTY, validate);
-        webServer.setHostName("aleks2.com");
+        webServer.setWebServerName("aleks2.com");
         webServer.setIp(null);
         validate = validator.validate(webServer);
         Assert.assertEquals(validator.IP_IS_EMPTY, validate);

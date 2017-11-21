@@ -1,6 +1,7 @@
 package com.radware.appwall.domain.entities;
 
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import javax.persistence.*;
@@ -14,60 +15,62 @@ public class WebServerBinding {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
     @SerializedName("ID")
+    @Expose
     private Long id;
 
+    @Expose
     @SerializedName("WebServerName")
-    @Column(name = "HOST_NAME", unique = true)
-    private String hostName;
+    @Column(name = "WEB_SERVER_NAME", unique = true)
+    private String webServerName;
 
-    @ManyToOne()
+/*    @ManyToOne()
     @JoinColumn(name = "HOST_BINDINGS_ID", referencedColumnName = "ID", nullable = false)
-    private HostBindings hostBindings;
+    private HostBindings hostBindings;*/
 
+    @Expose
     @SerializedName("Description")
     @Column(name = "DESCRIPTION")
     public String description;
 
+    @Expose
     @SerializedName("IP")
     @Column(name = "IP")
     public String ip;
 
+    @Expose
     @SerializedName("Port")
     @Column(name = "PORT")
     public Integer port;
 
+    @Expose
     @SerializedName("Protocol")
     @Column(name = "PROTOCOL")
     public ProtocolEnum protocol;
 
+    @Expose
     @SerializedName("SupportSSLv2")
     @Column(name = "SSL_V2")
     public Boolean supportSSLv2;
 
+    @Expose
     @SerializedName("SupportSSLv3")
     @Column(name = "SSL_V3")
     public Boolean supportSSLv3;
 
+    @Expose
     @SerializedName("SupportTLSv10")
     @Column(name = "TLS_1_0", unique = true)
     public Boolean supportTLSv10;
 
+    @Expose
     @SerializedName("SupportTLSv11")
     @Column(name = "TLS_1_1", unique = true)
     public Boolean supportTLSv11;
 
+    @Expose
     @SerializedName("SupportTLSv12")
     @Column(name = "TLS_1_2", unique = true)
     public Boolean supportTLSv12;
-
-    public HostBindings getHostBindings() {
-        return hostBindings;
-    }
-
-    public void setHostBindings(HostBindings hostBindings) {
-        this.hostBindings = hostBindings;
-    }
-
 
     public WebServerBinding() {
     }
@@ -95,18 +98,6 @@ public class WebServerBinding {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getHostName() {
-        return hostName;
-    }
-
-    public void setHostName(String hostName) {
-        this.hostName = hostName;
-    }
-
-    public String getWebServerName() {
-        return hostBindings.getWebServerName();
     }
 
     public String getDescription() {
@@ -181,9 +172,19 @@ public class WebServerBinding {
         this.supportTLSv12 = supportTLSv12;
     }
 
+    public String getWebServerName() {
+        return webServerName;
+    }
+
+    public void setWebServerName(String webServerName) {
+        this.webServerName = webServerName;
+    }
+
+
+
     @Override
     public String toString() {
-        return "WebServerBinding{" + "id=" + id + ", hostName='" + hostName + '\'' + ", hostBindings=" + hostBindings +
+        return "WebServerBinding{" + "id=" + id + ", webServerName ='" + webServerName + '\'' +
                 ", description='" + description + '\'' + ", ip='" + ip + '\'' + ", port=" + port + ", protocol=" +
                 protocol + ", supportSSLv2=" + supportSSLv2 + ", supportSSLv3=" + supportSSLv3 + ", supportTLSv10=" +
                 supportTLSv10 + ", supportTLSv11=" + supportTLSv11 + ", supportTLSv12=" + supportTLSv12 + '}';

@@ -1,13 +1,10 @@
 package com.radware.appwall.com.radware.appwall.service;
 
-import com.radware.appwall.convertors.WebServerConvertor;
-import com.radware.appwall.domain.entities.WebServerBinding;
+import com.radware.appwall.convertors.HostBindingsEntityConvertor;
+import com.radware.appwall.domain.entities.HostBindings;
+import com.radware.appwall.domain.scrawler.Scrawler;
 import com.radware.appwall.logging.AppWallLogger;
-import com.radware.appwall.old.fileManagers.ProtectedEntitiesFileManager;
-import com.radware.appwall.repository.HostBindingsWebServersRepository;
-import com.radware.appwall.xml.XmlUtil;
-import com.radware.appwall.xml.protectedEnities.ProtectedEntities;
-import com.radware.appwall.xml.protectedEnities.WebServerInterfaces;
+import com.radware.appwall.repository.HostBindingsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -19,42 +16,41 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import java.io.*;
-import java.nio.charset.Charset;
-import java.nio.file.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 @Service
-public class WebServerPopulator implements DBInitializer {
+public class HostBindingsPopulator implements DBInitializer {
 
-    public static final String PROTECTED_ENTITIES_FILE = "Config/ProtectedEntities.cfg";
-    public static final String WEB_SERVERS = "WebServers";
+    public static final String PROTECTED_ENTITIES_FILE = "Filters/Scrawler.adv";
+    public static final String HOST_BIND = "HOST_BIND";
 
 
     @Value("${appwall.server.config.base.path}")
     private String basePath;
 
     @Autowired
-    WebServerConvertor webServerConvertor;
+    HostBindingsEntityConvertor webServerConvertor;
 
     @Autowired
-    HostBindingsWebServersRepository hostBindingsWebServersRepository;
+    HostBindingsRepository hostBindingsWebServersRepository;
 
     @Autowired
     private ResourceLoader resourceLoader;
 
-    @Autowired
-    private ProtectedEntitiesFileManager protectedEntitiesFileManager;
 
     private JAXBContext jaxbContext;
     private Unmarshaller unmarshaller = null;
     private Marshaller marshaller = null;
 
 
-    public WebServerPopulator() {
+    public HostBindingsPopulator() {
         try {
-            jaxbContext = JAXBContext.newInstance(ProtectedEntities.class);
+            jaxbContext = JAXBContext.newInstance(Scrawler.class);
             unmarshaller = jaxbContext.createUnmarshaller();
             marshaller = jaxbContext.createMarshaller();
         } catch(JAXBException ex) {
@@ -66,18 +62,20 @@ public class WebServerPopulator implements DBInitializer {
     @Override
     @Transactional
     public void initDB() {
-        List<WebServerBinding> webServerBindings = populate();
+        List<HostBindings> webServerBindings = populate();
         hostBindingsWebServersRepository.save(webServerBindings);
+        //dumpDB();
     }
 
     @Override
     public Integer getOrder() {
-        return 1;
+        return 2;
     }
 
-    public List<WebServerBinding> populate() {
+    public List<HostBindings> populate() {
+        List<HostBindings> bindingList = new ArrayList<>();
         Resource resource = resourceLoader.getResource(basePath + PROTECTED_ENTITIES_FILE);
-        if (!resource.exists()) {
+        if(!resource.exists()) {
             return Collections.emptyList();
         }
         BufferedReader reader = null;
@@ -88,19 +86,25 @@ public class WebServerPopulator implements DBInitializer {
             AppWallLogger
                     .error(this.getClass(), e, "ERROR_INITIALIZING_RESOURCEx1", basePath + PROTECTED_ENTITIES_FILE);
         }
-        ProtectedEntities protectedEntities = null;
+        Scrawler scrawler = null;
         try {
-            protectedEntities = (ProtectedEntities) unmarshaller.unmarshal(reader);
+            scrawler = (Scrawler) unmarshaller.unmarshal(reader);
         } catch(JAXBException e) {
             AppWallLogger.error(this.getClass(), e, "ERROR_UNMARSHALLING");
         }
-        List<WebServerBinding> bindingList = webServerConvertor.convertToDto(protectedEntities);
+
+        try {
+            bindingList = webServerConvertor.convertToDto(scrawler);
+        } catch(Exception ex) {
+            AppWallLogger.error(this.getClass(), ex, "ERROR_SAVING_ENTITYx1", bindingList);
+        }
         return bindingList;
     }
 
     @Override
     public void dumpDB() throws IOException {
-        Iterable<WebServerBinding> serverBindings = hostBindingsWebServersRepository.findAll();
+        //TODO
+       /* Iterable<WebServerBinding> serverBindings = hostBindingsWebServersRepository.findAll();
         ProtectedEntities protectedEntities = new ProtectedEntities();
         protectedEntities.webServerInterfaces = new WebServerInterfaces();
         protectedEntities.webServerInterfaces.webServerInterface = webServerConvertor.convertToEntities(serverBindings);
@@ -129,12 +133,12 @@ public class WebServerPopulator implements DBInitializer {
             throw e;
         }
 
-
+*/
     }
 
     @Override
     public String getTableName() {
-        return WEB_SERVERS;
+        return HOST_BIND;
     }
 
     @Override

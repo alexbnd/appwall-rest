@@ -21,7 +21,8 @@ public class WebServerConvertor {
     public List<WebServerBinding> convertToDto(ProtectedEntities protectedEntities) {
         List<WebServerBinding> bindingList = new ArrayList<>();
         for(WebServerInterface serverInterface : protectedEntities.webServerInterfaces.webServerInterface) {
-            WebServerBinding webServerBinding = webServersRepository.findByHostNameIgnoreCase(serverInterface.name);
+            WebServerBinding webServerBinding =
+                    webServersRepository.findByWebServerNameIgnoreCase(serverInterface.name);
             if(webServerBinding == null) {
                 webServerBinding = createWebServerBinding(serverInterface);
             }
@@ -33,7 +34,7 @@ public class WebServerConvertor {
     private WebServerBinding createWebServerBinding(WebServerInterface serverInterface) {
         WebServerBinding webServerBinding;
         webServerBinding = new WebServerBinding();
-        webServerBinding.setHostName(serverInterface.name);
+        webServerBinding.setWebServerName(serverInterface.name);
         webServerBinding.setDescription(serverInterface.description);
         webServerBinding.setIp(serverInterface.ip);
         webServerBinding.setPort(Integer.parseInt(serverInterface.port));
@@ -64,24 +65,24 @@ public class WebServerConvertor {
     private WebServerInterface createWebServerInterface(WebServerBinding binding) {
         WebServerInterface serverInterface = new WebServerInterface();
         serverInterface.setId(binding.getId().toString());
-        serverInterface.setName(binding.getHostName());
+        serverInterface.setName(binding.getWebServerName());
         serverInterface.setDescription(binding.description);
         serverInterface.setIp(binding.ip);
         serverInterface.setPort(binding.port.toString());
         serverInterface.setProtocol(binding.protocol.name());
-        if (binding.supportSSLv2 == null) {
+        if(binding.supportSSLv2 == null) {
             binding.supportSSLv2 = false;
         }
-        if (binding.supportSSLv3 == null) {
+        if(binding.supportSSLv3 == null) {
             binding.supportSSLv3 = false;
         }
-        if (binding.supportTLSv10 == null) {
+        if(binding.supportTLSv10 == null) {
             binding.supportTLSv10 = false;
         }
-        if (binding.supportTLSv11 == null) {
+        if(binding.supportTLSv11 == null) {
             binding.supportTLSv11 = false;
         }
-        if (binding.supportTLSv12 == null) {
+        if(binding.supportTLSv12 == null) {
             binding.supportTLSv12 = false;
         }
         BitSet base = Bits.convert(1);

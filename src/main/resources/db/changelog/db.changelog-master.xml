@@ -6,11 +6,11 @@
             <column autoIncrement="true" name="ID" type="INT">
                 <constraints primaryKey="true" primaryKeyName="SYS_PK_10101"/>
             </column>
-            <column name="WEB_SERVER_NAME" type="VARCHAR(100)">
+            <column name="HOST_NAME" type="VARCHAR(100)">
                 <constraints nullable="false" unique="true"/>
             </column>
             <column name="USER_IP" type="VARCHAR(100)">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
 
         </createTable>
@@ -18,11 +18,8 @@
             <column autoIncrement="true" name="ID" type="INT" startWith="255">
                 <constraints primaryKey="true" primaryKeyName="SYS_PK_10100"/>
             </column>
-            <column name="HOST_NAME" type="VARCHAR(100)">
+            <column name="WEB_SERVER_NAME" type="VARCHAR(100)">
                 <constraints nullable="false" unique="true"/>
-            </column>
-            <column name="HOST_BINDINGS_ID" type="INT">
-                <constraints nullable="true"/>
             </column>
             <column name="DESCRIPTION" type="VARCHAR(100)">
                 <constraints nullable="true"/>
@@ -52,12 +49,25 @@
                 <constraints nullable="true"/>
             </column>
         </createTable>
+    <createTable tableName="HOST_TO_WEB_SERVER_MAPPING">
+        <column name="HOST_ID" type="INT">
+            <constraints nullable="false"/>
+        </column>
+        <column name="WEB_SERVER_ID" type="INT">
+            <constraints nullable="true"/>
+        </column>
+    </createTable>
 
-        <addForeignKeyConstraint baseColumnNames="HOST_BINDINGS_ID"
-                                 baseTableName="WEB_SERVERS" constraintName="SYS_FK_10101"
+        <addForeignKeyConstraint baseColumnNames="HOST_ID"
+                                 baseTableName="HOST_TO_WEB_SERVER_MAPPING" constraintName="SYS_FK_10101"
                                  deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
                                  referencedColumnNames="ID"
                                  referencedTableName="HOST_BIND"/>
+        <addForeignKeyConstraint baseColumnNames="WEB_SERVER_ID"
+                                 baseTableName="HOST_TO_WEB_SERVER_MAPPING" constraintName="SYS_FK_10102"
+                                 deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="ID"
+                                 referencedTableName="WEB_SERVERS"/>
         <addUniqueConstraint columnNames="ip, port"
                              constraintName="SYS_UNIQUE_10001"
                              deferrable="true"

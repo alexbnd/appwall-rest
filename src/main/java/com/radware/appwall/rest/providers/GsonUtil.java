@@ -1,4 +1,4 @@
-package com.radware.appwall.rest;
+package com.radware.appwall.rest.providers;
 
 import com.google.gson.*;
 

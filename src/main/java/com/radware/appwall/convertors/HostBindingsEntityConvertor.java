@@ -4,14 +4,13 @@ import com.radware.appwall.domain.entities.HostBindings;
 import com.radware.appwall.domain.entities.WebServerBinding;
 import com.radware.appwall.domain.scrawler.Binding;
 import com.radware.appwall.domain.scrawler.Scrawler;
+import com.radware.appwall.repository.HostBindingsRepository;
 import com.radware.appwall.repository.HostBindingsWebServersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class HostBindingsEntityConvertor {
@@ -19,30 +18,38 @@ public class HostBindingsEntityConvertor {
     @Autowired
     private HostBindingsWebServersRepository webServersRepository;
 
+    @Autowired
+    private HostBindingsRepository hostBindingsRepository;
+
 
     public List<HostBindings> convertToDto(Scrawler scrawler) {
-        List<HostBindings> hostBindings = new ArrayList<>();
+        List<HostBindings> hostBindingsList = new ArrayList<>();
 
         for(Binding binding : scrawler.hostMap.bindings) {
             HostBindings hostBinding = new HostBindings();
-            hostBinding.setWebServerName(binding.name);
+            hostBinding.setHostName(binding.name);
             hostBinding.setGetUserIPFromHTTPHeader(binding.getUserIPFromHTTPHeader);
+            hostBinding = hostBindingsRepository.save(hostBinding);
             List<String> webServerInterfaceName = binding.getWebServerInterfaceName();
-            Set<WebServerBinding> webServerBindingSet = new HashSet<>();
+            List<WebServerBinding> webServerBindingSet = new ArrayList<>();
             for(String webServerName : webServerInterfaceName) {
-                WebServerBinding webServerBinding = webServersRepository.findByHostNameIgnoreCase(webServerName);
-                if(webServerBinding == null) {
+                WebServerBinding webServerBinding = webServersRepository.findByWebServerNameIgnoreCase(webServerName);
+/*                if(webServerBinding == null) {
                     webServerBinding = new WebServerBinding();
-                    webServerBinding.setHostName(webServerName);
-                }
+                    webServerBinding.setWebServerName(webServerName);
+                }*/
+                // webServerBinding.setHostBindings(hostBinding);
+                //webServerBinding = webServersRepository.save(webServerBinding);
                 webServerBindingSet.add(webServerBinding);
             }
             hostBinding.setWebServers(webServerBindingSet);
+            hostBinding = hostBindingsRepository.save(hostBinding);
+            hostBindingsList.add(hostBinding);
         }
-        return hostBindings;
+        return hostBindingsList;
     }
 
-    private Scrawler convertToEntity(List<HostBindings> hostBindings) {
+    private Scrawler convertToEntities(List<HostBindings> hostBindings) {
         //Fixme
         return new Scrawler();
     }

@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 public class JerseyConfig extends ResourceConfig {
 
     public JerseyConfig() {
-        register(HostBindingsPoint.class);
         register(ProtectedEntitiesEndpoint.class);
+        register(HostBindingsEndpoint.class);
         register(ApplyEndpoint.class);
         register(GsonJerseyProvider.class);
         register(ValidationException.class);
