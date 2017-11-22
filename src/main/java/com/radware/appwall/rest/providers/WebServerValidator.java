@@ -1,7 +1,7 @@
 package com.radware.appwall.rest.providers;
 
 import com.radware.appwall.domain.entities.WebServerBinding;
-import com.radware.appwall.repository.HostBindingsWebServersRepository;
+import com.radware.appwall.repository.WebServersRepository;
 import com.radware.appwall.validation.ValidWebServerBinding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class WebServerValidator implements ConstraintValidator<ValidWebServerBin
     public static final String PROTOCOL_IS_ILLEGAL = "Illegal protocol. Possible values: HTTP, HTTPS, TCP";
 
     @Autowired
-    private HostBindingsWebServersRepository webServersRepository;
+    private WebServersRepository webServersRepository;
 
     @Override
     public void initialize(final ValidWebServerBinding hasId) {

@@ -23,10 +23,6 @@ public class WebServerBinding {
     @Column(name = "WEB_SERVER_NAME", unique = true)
     private String webServerName;
 
-/*    @ManyToOne()
-    @JoinColumn(name = "HOST_BINDINGS_ID", referencedColumnName = "ID", nullable = false)
-    private HostBindings hostBindings;*/
-
     @Expose
     @SerializedName("Description")
     @Column(name = "DESCRIPTION")

@@ -1,7 +1,7 @@
 package com.radware.appwall.appwallrest.validator;
 
 import com.radware.appwall.domain.entities.WebServerBinding;
-import com.radware.appwall.repository.HostBindingsWebServersRepository;
+import com.radware.appwall.repository.WebServersRepository;
 import com.radware.appwall.rest.providers.WebServerValidator;
 import org.junit.Assert;
 import org.junit.Test;
@@ -19,7 +19,7 @@ public class ValidWebServerBindingTests {
     private WebServerValidator validator;
 
     @Autowired
-    private HostBindingsWebServersRepository webServersRepository;
+    private WebServersRepository webServersRepository;
 
     @Test
     @DirtiesContext

@@ -2,10 +2,12 @@ package com.radware.appwall.rest;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.radware.appwall.domain.entities.HostBindings;
 import com.radware.appwall.domain.entities.WebServerBinding;
 import com.radware.appwall.json.JsonFormatter;
 import com.radware.appwall.logging.AppWallLogger;
-import com.radware.appwall.repository.HostBindingsWebServersRepository;
+import com.radware.appwall.repository.HostBindingsRepository;
+import com.radware.appwall.repository.WebServersRepository;
 import com.radware.appwall.validation.ValidWebServerBinding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,6 +16,7 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Component
 @Path("/v3/config/aw/WebServers")
@@ -22,18 +25,17 @@ public class ProtectedEntitiesEndpoint {
     public static final String WEB_SERVER_BINDING_SAVED = "WebServerBinding saved : ";
     public static final String WEB_SERVER_BINDING_DELETED = "WebServerBinding deleted : ";
     public static final String ENTITY_NOT_FOUND = "Entity not found ";
-
-    /*
-    public ProtectedEntitiesEndpoint (){
-        gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-    }
-    */
+    public static final String CAN_T_DELETE_WERBSERVER_ASSIGNED_PROTECTED_ENTITIES_EXIST =
+            "Can't delete werbserver. Assigned protected  entities exist";
 
     @Autowired
-    private JsonFormatter gson;
+    private JsonFormatter jsonFormatter;
 
     @Autowired
-    private HostBindingsWebServersRepository webServersRepository;
+    private WebServersRepository webServersRepository;
+
+    @Autowired
+    private HostBindingsRepository hostBindingsRepository;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -41,7 +43,7 @@ public class ProtectedEntitiesEndpoint {
         Iterable<WebServerBinding> webServers = webServersRepository.findAll();
         CollectionWrapper wrapper = new CollectionWrapper();
         wrapper.collection = webServers;
-        return gson.toJson(wrapper);
+        return jsonFormatter.toJson(wrapper);
     }
 
     @POST
@@ -90,26 +92,18 @@ public class ProtectedEntitiesEndpoint {
         if(byId == null) {
             return Response.status(Response.Status.NOT_FOUND).entity(ENTITY_NOT_FOUND + id).build();
         }
+        List<HostBindings> byWebServerId = hostBindingsRepository.findByWebServerId(longId);
+        if (byWebServerId != null && !byWebServerId.isEmpty()) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(
+                    CAN_T_DELETE_WERBSERVER_ASSIGNED_PROTECTED_ENTITIES_EXIST).build();
+        }
+
+
         webServersRepository.delete(byId);
         String result = WEB_SERVER_BINDING_DELETED + id;
         return Response.status(Response.Status.OK).entity(result).build();
 
     }
-
-    /*
-    @GET
-    @Path("/{default: .*}")
-    public Response defaultMethod(@Context HttpServletRequest request, @Context HttpServletResponse response) {
-        return Response.noContent().build();
-    }
-
-    @POST
-    @Path("/{default: .*}")
-    public Response defaultPostMethod(@Context HttpServletRequest request, @Context HttpServletResponse response) {
-        return Response.noContent().build();
-    }
-    */
-
 
     public class CollectionWrapper {
         @Expose

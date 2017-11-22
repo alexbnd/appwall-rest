@@ -5,7 +5,7 @@ import com.radware.appwall.domain.entities.WebServerBinding;
 import com.radware.appwall.domain.scrawler.Binding;
 import com.radware.appwall.domain.scrawler.Scrawler;
 import com.radware.appwall.repository.HostBindingsRepository;
-import com.radware.appwall.repository.HostBindingsWebServersRepository;
+import com.radware.appwall.repository.WebServersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ import java.util.List;
 public class HostBindingsEntityConvertor {
 
     @Autowired
-    private HostBindingsWebServersRepository webServersRepository;
+    private WebServersRepository webServersRepository;
 
     @Autowired
     private HostBindingsRepository hostBindingsRepository;
@@ -34,12 +34,6 @@ public class HostBindingsEntityConvertor {
             List<WebServerBinding> webServerBindingSet = new ArrayList<>();
             for(String webServerName : webServerInterfaceName) {
                 WebServerBinding webServerBinding = webServersRepository.findByWebServerNameIgnoreCase(webServerName);
-/*                if(webServerBinding == null) {
-                    webServerBinding = new WebServerBinding();
-                    webServerBinding.setWebServerName(webServerName);
-                }*/
-                // webServerBinding.setHostBindings(hostBinding);
-                //webServerBinding = webServersRepository.save(webServerBinding);
                 webServerBindingSet.add(webServerBinding);
             }
             hostBinding.setWebServers(webServerBindingSet);
@@ -49,8 +43,25 @@ public class HostBindingsEntityConvertor {
         return hostBindingsList;
     }
 
-    private Scrawler convertToEntities(List<HostBindings> hostBindings) {
-        //Fixme
-        return new Scrawler();
+    public List<Binding> convertToEntities(Iterable<HostBindings> hostBindings) {
+        List<Binding> bindingsList = new ArrayList<>();
+        for(HostBindings bindings : hostBindings) {
+            Binding binding = createHostBindings(bindings);
+            bindingsList.add(binding);
+        }
+        return bindingsList;
     }
+
+    private Binding createHostBindings(HostBindings bindings) {
+        Binding binding = new Binding();
+        binding.setName(bindings.getHostName());
+        List<String> webserverNames = new ArrayList<>();
+        for(WebServerBinding webServerBinding : bindings.getWebServers()) {
+            webserverNames.add(webServerBinding.getWebServerName());
+        }
+        binding.setWebServerInterfaceName(webserverNames);
+        binding.setGetUserIPFromHTTPHeader("");
+        return binding;
+    }
+
 }

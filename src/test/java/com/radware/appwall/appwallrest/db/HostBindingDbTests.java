@@ -3,7 +3,7 @@ package com.radware.appwall.appwallrest.db;
 import com.radware.appwall.domain.entities.HostBindings;
 import com.radware.appwall.domain.entities.WebServerBinding;
 import com.radware.appwall.repository.HostBindingsRepository;
-import com.radware.appwall.repository.HostBindingsWebServersRepository;
+import com.radware.appwall.repository.WebServersRepository;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -16,7 +16,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -28,7 +27,7 @@ public class HostBindingDbTests { //extends AbstractDBTests {
     private HostBindingsRepository hostBindingsRepository;
 
     @Autowired
-    private HostBindingsWebServersRepository webServersRepository;
+    private WebServersRepository webServersRepository;
 
     @Rule
     public final ExpectedException exception = ExpectedException.none();

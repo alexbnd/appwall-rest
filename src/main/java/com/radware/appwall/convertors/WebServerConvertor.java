@@ -2,7 +2,7 @@ package com.radware.appwall.convertors;
 
 import com.radware.appwall.domain.entities.WebServerBinding;
 import com.radware.appwall.old.Bits;
-import com.radware.appwall.repository.HostBindingsWebServersRepository;
+import com.radware.appwall.repository.WebServersRepository;
 import com.radware.appwall.xml.protectedEnities.ProtectedEntities;
 import com.radware.appwall.xml.protectedEnities.WebServerInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import java.util.List;
 public class WebServerConvertor {
 
     @Autowired
-    private HostBindingsWebServersRepository webServersRepository;
+    private WebServersRepository webServersRepository;
 
     public List<WebServerBinding> convertToDto(ProtectedEntities protectedEntities) {
         List<WebServerBinding> bindingList = new ArrayList<>();
