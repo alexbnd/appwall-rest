@@ -20,7 +20,7 @@ import java.util.ArrayList;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 
-public class HostBindingDbTests { //extends AbstractDBTests {
+public class WebServerDbTests {
 
 
     @Autowired
