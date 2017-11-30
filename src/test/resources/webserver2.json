@@ -1,0 +1,13 @@
+{
+  "ID":"UNKNOWN_IP",
+  "WebServerName": "testEntity2",
+  "Description": "",
+  "IP": "2.2.2.2",
+  "Port": 81,
+  "Protocol": "HTTPS",
+  "SupportSSLv2": true,
+  "SupportSSLv3": false,
+  "SupportTLSv10": true,
+  "SupportTLSv11": false,
+  "SupportTLSv12": true
+}
