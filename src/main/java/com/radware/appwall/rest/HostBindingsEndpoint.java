@@ -12,8 +12,11 @@ import com.radware.appwall.validation.ValidHostBinding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
@@ -116,6 +119,12 @@ public class HostBindingsEndpoint {
         String result = WEB_SERVER_BINDING_DELETED + id;
         return Response.status(Response.Status.OK).entity(result).build();
 
+    }
+
+    @GET
+    @Path("/{default: .*}")
+    public Response defaultMethod(@Context HttpServletRequest request, @Context HttpServletResponse response) {
+        return Response.noContent().build();
     }
 
 

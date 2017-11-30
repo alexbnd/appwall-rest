@@ -14,6 +14,7 @@ public class JerseyConfig extends ResourceConfig {
         register(ProtectedEntitiesEndpoint.class);
         register(HostBindingsEndpoint.class);
         register(ApplyEndpoint.class);
+        register(TunnelEndpoint.class);
         register(GsonJerseyProvider.class);
         register(ValidationException.class);
         //register(WebServerValidator.class);

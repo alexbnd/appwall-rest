@@ -3,12 +3,14 @@ package com.radware.appwall.rest;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.radware.appwall.domain.entities.HostBindings;
+import com.radware.appwall.domain.entities.HttpTunnel;
 import com.radware.appwall.domain.entities.WebServerBinding;
 import com.radware.appwall.json.JsonFormatter;
 import com.radware.appwall.logging.AppWallLogger;
 import com.radware.appwall.repository.HostBindingsRepository;
+import com.radware.appwall.repository.TunnelRepository;
 import com.radware.appwall.repository.WebServersRepository;
-import com.radware.appwall.rest.wrappers.WebServerCollectionWrapper;
+import com.radware.appwall.validation.ValidTunnel;
 import com.radware.appwall.validation.ValidWebServerBinding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,16 +19,14 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Component
-@Path("/v3/config/aw/WebServers")
-public class ProtectedEntitiesEndpoint {
+@Path("/v3/config/aw/HttpTunnels")
+public class TunnelEndpoint {
 
-    public static final String WEB_SERVER_BINDING_SAVED = "WebServerBinding saved : ";
-    public static final String WEB_SERVER_BINDING_DELETED = "WebServerBinding deleted : ";
+    public static final String TUNNEL_SAVED = "Tunnel saved : ";
+    public static final String TUNNEL_DELETED = "Tunnel deleted : ";
     public static final String ENTITY_NOT_FOUND = "Entity not found ";
     public static final String CAN_T_DELETE_WERBSERVER_ASSIGNED_PROTECTED_ENTITIES_EXIST =
             "Can't delete werbserver. Assigned protected  entities exist";
@@ -35,7 +35,7 @@ public class ProtectedEntitiesEndpoint {
     private JsonFormatter jsonFormatter;
 
     @Autowired
-    private WebServersRepository webServersRepository;
+    private TunnelRepository tunnelRepository;
 
     @Autowired
     private HostBindingsRepository hostBindingsRepository;
@@ -43,33 +43,28 @@ public class ProtectedEntitiesEndpoint {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getAllWebServers() {
-        AppWallLogger.info(this.getClass(), "GENENRAL_TRACE_LOGx1", "getall");
-        List<WebServerBinding> webServers = new ArrayList<WebServerBinding>();
-        Iterable<WebServerBinding> all = webServersRepository.findAll();
-        for (WebServerBinding binding: all) {
-            webServers.add(binding);
-        }
-        WebServerCollectionWrapper wrapper = new WebServerCollectionWrapper();
-        wrapper.setCollection(webServers);
+        Iterable<HttpTunnel> tunnels = tunnelRepository.findAll();
+        CollectionWrapper wrapper = new CollectionWrapper();
+        wrapper.collection = tunnels;
         return jsonFormatter.toJson(wrapper);
     }
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
-    public Response createWebServer(@Valid @ValidWebServerBinding WebServerBinding webServerBinding) {
-        WebServerBinding saved;
-        webServerBinding.setId(null);
+    public Response createWebServer(@Valid @ValidTunnel HttpTunnel httpTunnel) {
+        HttpTunnel saved;
+        httpTunnel.setId(null);
         try {
-            saved = webServersRepository.save(webServerBinding);
+            saved = tunnelRepository.save(httpTunnel);
         } catch(Exception ex) {
-            AppWallLogger.error(this.getClass(), ex, "ERROR_SAVING_ENTITYx1", webServerBinding);
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(webServerBinding).build();
+            AppWallLogger.error(this.getClass(), ex, "ERROR_SAVING_ENTITYx1", httpTunnel);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(httpTunnel).build();
         }
-        String result = WEB_SERVER_BINDING_SAVED + saved;
+        String result = TUNNEL_SAVED + saved;
         return Response.status(Response.Status.CREATED).entity(result).build();
 
     }
-
+/*
     @PUT
     @Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
     public Response updateWebServer(@Valid @ValidWebServerBinding WebServerBinding webServerBinding) {
@@ -112,13 +107,11 @@ public class ProtectedEntitiesEndpoint {
         return Response.status(Response.Status.OK).entity(result).build();
 
     }
-/*
+*/
     public class CollectionWrapper {
-        public CollectionWrapper() {}
-
         @Expose
-        @SerializedName("WebServers")
+        @SerializedName("HttpTunnels")
         private Iterable collection;
     }
-*/
+
 }

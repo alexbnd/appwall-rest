@@ -75,4 +75,257 @@
                              schemaName="public"
                              tableName="WEB_SERVERS" />
     </changeSet>
+    <changeSet id="tunnel_add" author="aleksandrb">
+        <createTable tableName="TUNNEL">
+        <column autoIncrement="true" name="ID" type="INT" startWith="255">
+            <constraints primaryKey="true" primaryKeyName="SYS_PK_10102"/>
+        </column>
+        <column name="TUNNEL_NAME" type="VARCHAR(100)">
+            <constraints nullable="false" unique="true"/>
+        </column>
+        <column name="TUNNEL_MODE" type="VARCHAR(100)">
+            <constraints nullable="false"/>
+        </column>
+        <column name="LISTEN_ADDRESS" type="VARCHAR(100)">
+            <constraints nullable="false" unique="true"/>
+        </column>
+        <column name="LISTEN_PORT" type="INT">
+            <constraints nullable="false"/>
+        </column>
+        <column name="IDLE_SESSION" type="INT">
+            <constraints nullable="false"/>
+        </column>
+        <column name="FORWARDING_ADDRESS" type="VARCHAR(100)">
+            <constraints nullable="false" />
+        </column>
+        <column name="PROTECTED_TYPE" type="VARCHAR(100)">
+            <constraints nullable="false" />
+        </column>
+        <column name="SERVER_NAME" type="VARCHAR(100)">
+            <constraints nullable="false" />
+        </column>
+        <column name="WEB_FARM" type="VARCHAR(100)">
+            <constraints />
+        </column>
+        <column name="PROTECTED_SERVER" type="VARCHAR(100)">
+            <constraints nullable="false" />
+        </column>
+        <column name="STATUS" type="VARCHAR(100)">
+            <constraints nullable="false" />
+        </column>
+        <column name="INCLUDE_THIS_TUNNEL" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="EXTERNAL_SSL_OFFLOADING" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="AUTO_TUNNEL_SETTINGS_OPTIMIZATION" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="TUNNEL_THREAD_COUNT" type="VARCHAR(100)">
+            <constraints nullable="true" />
+        </column>
+        <column name="OPERATIONAL_MODE" type="VARCHAR(100)">
+            <constraints nullable="true" />
+        </column>
+        <column name="FAILURE_HANDLING" type="VARCHAR(100)">
+            <constraints nullable="true" />
+        </column>
+        <column name="IGNORE_AUTOMATICALLY" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="AUTOMATICALLY_SUSPEND_TUNNEL" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="AFTER_CONNECTION" type="VARCHAR(100)">
+            <constraints nullable="true"/>
+        </column>
+        <column name="PENDING_CONNECTIONS" type="INT">
+            <constraints nullable="true"/>
+        </column>
+        <column name="ACTIVE_CONNECTIONS" type="INT">
+            <constraints nullable="true"/>
+        </column>
+        <column name="X_FORWARDED" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="ALLOW_HIGH_ASCII" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="CODEPAGE_ENCODING" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="DISABLE_PERSISTENT" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="ALLOW_MESSAGE_PARAMETER_VALUES" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="SUPPORT_QUICK_CLICK" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="SESSION_DELIMITER" type="VARCHAR(100)">
+            <constraints nullable="true"/>
+        </column>
+        <column name="TCP_HTTP_TIME_OUT_RADIO" type="VARCHAR(100)">
+            <constraints nullable="true"/>
+        </column>
+        <column name="CLIENT_REQUEST_DATA_WAIT" type="INT">
+            <constraints nullable="true"/>
+        </column>
+        <column name="SERVER_REQUEST_DATA_WAIT" type="INT">
+            <constraints nullable="true"/>
+        </column>
+        <column name="CLIENT_REQUEST_DATA_AFTER_RESPONSE_WAIT" type="INT">
+            <constraints nullable="true"/>
+        </column>
+        <column name="URL_QUERY_DELIMITER" type="VARCHAR(100)">
+            <constraints nullable="true"/>
+        </column>
+        <column name="ENABLE_PERCENT_3F_CHECK" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="PARAMETER_DELIMITER" type="VARCHAR(100)">
+            <constraints nullable="true"/>
+        </column>
+        <column name="CODEPAGE_ENCODING_SCHEME" type="VARCHAR(100)">
+            <constraints nullable="true"/>
+        </column>
+        <column name="SUPPORT_PARSING_TO_NULL" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="ALLOW_DOUBLE_SLASHES" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="PURGE_MULTIPLE_SLASHES" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="ANALYZE_PATH_PARAMETERS" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="ANALYZE_COOKIES" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="ALLOW_NON_RFC" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="PURSE_MULTYPART" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="ALLOW_TRAILING" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="USE_IIS" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="ALLOW_EXTRA_SPACE" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="ENABLE_CUSTOM_HEADERS" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="SIGNATURES_ENABLE" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="SIG_PER_SM" type="VARCHAR(100)">
+            <constraints nullable="true"/>
+        </column>
+        <column name="SIGNATURE_HEADER_NAME" type="VARCHAR(100)">
+            <constraints nullable="true"/>
+        </column>
+        <column name="SIGNATURE_MODE" type="VARCHAR(100)">
+            <constraints nullable="true"/>
+        </column>
+        <column name="SIGNATURES_PRIVATE_KEY" type="VARCHAR(100)">
+            <constraints nullable="true"/>
+        </column>
+        <column name="INCLUDE_URL_CHECK" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="INCLUDE_APPWALL_FORWARDING_IP_CHECK" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="INCLUDE_APPWALL_FORWARDING_PORT_CHECK" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="INCLUDE_DATE_TIME_CHECK" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="TIME_TO_LIVE_LB" type="INT">
+            <constraints nullable="false"/>
+        </column>
+        <column name="HEADER_NAME_LIST_CHECK" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="ENABLE_PROTECTION_SLOWLORIS" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="CHECK_TIME_GAP" type="INT">
+            <constraints nullable="false"/>
+        </column>
+        <column name="MINIMAL_SENT_DATA_AMOUNT" type="INT">
+            <constraints nullable="false"/>
+        </column>
+        <column name="ENABLE_COMPRESSED_REPLIES_SETTINGS" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="SIGN_PER" type="VARCHAR(100)">
+            <constraints nullable="true"/>
+        </column>
+        <column name="ENABLE_SERVER_IDENTITY" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="SERVER_IDENTITY" type="VARCHAR(100)">
+            <constraints nullable="true"/>
+        </column>
+        <column name="HEADER_VALUES" type="VARCHAR(100)">
+            <constraints nullable="true"/>
+        </column>
+        <column name="TERMINATE_100" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="ALLOW_CLIENT_CACHE" type="BOOLEAN">
+            <constraints nullable="true"/>
+        </column>
+        <column name="CLIENT_START_LINE" type="INT">
+            <constraints nullable="false"/>
+        </column>
+        <column name="SERVER_START_LINE" type="INT">
+            <constraints nullable="false"/>
+        </column>
+        <column name="CLIENT_BODY" type="INT">
+            <constraints nullable="false"/>
+        </column>
+        <column name="SERVER_BODY" type="INT">
+            <constraints nullable="false"/>
+        </column>
+        <column name="CLIENT_TOTAL_HEADERS" type="INT">
+            <constraints nullable="false"/>
+        </column>
+        <column name="SERVER_TOTAL_HEADERS" type="INT">
+            <constraints nullable="false"/>
+        </column>
+        <column name="CLIENT_SINGLE_HEADER" type="INT">
+            <constraints nullable="false"/>
+        </column>
+        <column name="SERVER_SINGLE_HEADER" type="INT">
+            <constraints nullable="false"/>
+        </column>
+            <column name="WEB_SERVER_ID" type="INT">
+                <constraints nullable="true"/>
+            </column>
+
+        </createTable>
+        <createTable tableName="TUNNEL_TO_WEB_SERVER_MAPPING">
+            <column name="TUNNEL_ID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="WEB_SERVER_ID"
+                                 baseTableName="TUNNEL" constraintName="SYS_FK_10104"
+                                 deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="ID"
+                                 referencedTableName="WEB_SERVERS"/>
+
+    </changeSet>
 </databaseChangeLog>

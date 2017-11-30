@@ -5,11 +5,12 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "WEB_SERVERS", schema = "PUBLIC")
-public class WebServerBinding {
+public class WebServerBinding implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -1,5 +1,6 @@
 package com.radware.appwall.com.radware.appwall.service;
 
+import api.tables.HostBindingsProvider;
 import com.radware.appwall.convertors.WebServerConvertor;
 import com.radware.appwall.domain.entities.WebServerBinding;
 import com.radware.appwall.logging.AppWallLogger;
