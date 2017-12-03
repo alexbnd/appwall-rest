@@ -8,6 +8,7 @@ import com.radware.appwall.json.JsonFormatter;
 import com.radware.appwall.logging.AppWallLogger;
 import com.radware.appwall.repository.HostBindingsRepository;
 import com.radware.appwall.repository.WebServersRepository;
+import com.radware.appwall.rest.wrappers.HostBindingsCollectionWrapper;
 import com.radware.appwall.validation.ValidHostBinding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -40,11 +41,15 @@ public class HostBindingsEndpoint {
     private WebServersRepository webServersRepository;
 
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String getAllWebServers() {
-        Iterable<HostBindings> bindings = hostBindingsRepository.findAll();
-        CollectionWrapper wrapper = new CollectionWrapper();
-        wrapper.collection = bindings;
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getAllBindings() {
+        List<HostBindings> bindings = new ArrayList<HostBindings>();
+        Iterable<HostBindings> hostBindings = hostBindingsRepository.findAll();
+        for (HostBindings binding: hostBindings) {
+            bindings.add(binding);
+        }
+        HostBindingsCollectionWrapper wrapper = new HostBindingsCollectionWrapper();
+        wrapper.setCollection(bindings);
         return jsonFormatter.toJson(wrapper);
     }
 
@@ -125,13 +130,6 @@ public class HostBindingsEndpoint {
     @Path("/{default: .*}")
     public Response defaultMethod(@Context HttpServletRequest request, @Context HttpServletResponse response) {
         return Response.noContent().build();
-    }
-
-
-    public class CollectionWrapper {
-        @Expose
-        @SerializedName("HostBindings")
-        private Iterable collection;
     }
 
 }

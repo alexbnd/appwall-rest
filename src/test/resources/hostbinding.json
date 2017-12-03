@@ -1,0 +1,20 @@
+{
+  "ID": null,
+  "GetUserIPFromHTTPHeader": "",
+  "HostName": "testHostBinding",
+  "HostBindingsWebServers": [
+    {
+      "ID": null,
+      "WebServerName": "testEntity",
+      "Description": "",
+      "IP": "10.10.25.206",
+      "Port": 80,
+      "Protocol": "HTTP",
+      "SupportSSLv2": false,
+      "SupportSSLv3": true,
+      "SupportTLSv10": true,
+      "SupportTLSv11": true,
+      "SupportTLSv12": true
+    }
+  ]
+}
